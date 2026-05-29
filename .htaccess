@@ -1,0 +1,16 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
+Options -Indexes
+
+#php_value curl.cainfo "D:\laragon\etc\ssl\cacert.pem"
+#RedirectMatch 404 /\.git
+RewriteRule ^(.*/)?\.git+ - [F,L]
+ErrorDocument 403 "Access Forbidden"
+<IfModule mod_headers.c>
+	#Header set Content-Security-Policy "default-src *; style-src 'self' 'nonce-rAnd0m'; script-src 'self' 'unsafe-eval' 'nonce-rAnd0mjs';
+	Header set X-XSS-Protection "1; mode=block"
+	Header always append X-Frame-Options SAMEORIGIN
+	Header set X-Content-Type-Options nosniff
+</IfModule>
