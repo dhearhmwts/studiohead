@@ -19,7 +19,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="<?= base_url('assets/img/apple-icon.png') ?>">
-  <link rel="icon" type="image/png" href="<?= base_url('assets/img/favicon.png') ?>">
+  <link rel="icon" type="image/png" href="<?= base_url('assets/img/logo.png') ?>">
   <title>StudioHead</title>
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900">
@@ -144,13 +144,7 @@
                   <a href="https://www.creative-tim.com" class="nav-link text-white" target="_blank">Creative Tim</a>
                 </li>
                 <li class="nav-item">
-                  <a href="https://www.creative-tim.com/presentation" class="nav-link text-white" target="_blank">About Us</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/blog" class="nav-link text-white" target="_blank">Blog</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-white" target="_blank">License</a>
+                  <a href="javascript:void(0)" class="nav-link text-white" data-bs-toggle="modal" data-bs-target="#aboutUsModal">About Us</a>
                 </li>
               </ul>
             </div>
@@ -159,6 +153,75 @@
       </footer>
     </div>
   </main>
+
+  <!-- about us -->
+  <div class="modal fade" id="aboutUsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header bg-gradient-dark border-0">
+          <h5 class="modal-title text-white font-weight-bold">
+            <i class="fas fa-info-circle me-2"></i> About Us
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="text-center mb-4">
+            <h3 class="font-weight-extrabold text-dark mb-2">
+              StudioHead
+            </h3>
+            <p class="text-sm text-muted mx-auto" style="max-width: 500px;">
+              Platform booking studio modern untuk kebutuhan podcast, live streaming, webinar, dan content production Anda.
+            </p>
+          </div>
+          <hr class="horizontal dark my-4">
+          <div class="d-flex align-items-center mb-3">
+            <h6 class="font-weight-bold text-uppercase text-xs text-secondary letter-spacing-2 mb-0">
+              Tim Pengembang
+            </h6>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <div class="card h-100 border shadow-none bg-gray-100 border-radius-lg text-center p-3">
+                <div class="avatar avatar-lg bg-gradient-primary rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center text-white font-weight-bold shadow-sm" style="width: 60px; height: 60px;">
+                  PM
+                </div>
+                <h6 class="mb-1 text-dark font-weight-bold text-sm">Dhea Rahmawati S.</h6>
+                <p class="text-xs text-muted mb-2">2350085001</p>
+                <span class="badge bg-sm bg-gradient-primary border-radius-sm mx-auto">Fullstack Dev</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card h-100 border shadow-none bg-gray-100 border-radius-lg text-center p-3">
+                <div class="avatar avatar-lg bg-gradient-info rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center text-white font-weight-bold shadow-sm" style="width: 60px; height: 60px;">
+                  BE
+                </div>
+                <h6 class="mb-1 text-dark font-weight-bold text-sm">Indra Gemanurlingga</h6>
+                <p class="text-xs text-muted mb-2">2350085005</p>
+                <span class="badge bg-sm bg-gradient-info border-radius-sm mx-auto">Backend Dev</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card h-100 border shadow-none bg-gray-100 border-radius-lg text-center p-3">
+                <div class="avatar avatar-lg bg-gradient-success rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center text-white font-weight-bold shadow-sm" style="width: 60px; height: 60px;">
+                  FE
+                </div>
+                <h6 class="mb-1 text-dark font-weight-bold text-sm">Rafi Ibrahim</h6>
+                <p class="text-xs text-muted mb-2">2350085010</p>
+                <span class="badge bg-sm bg-gradient-success border-radius-sm mx-auto">Frontend Dev</span>
+              </div>
+            </div>
+          </div>
+          <hr class="horizontal dark my-4">
+          <div class="text-center">
+            <small class="text-xs text-muted font-weight-bold">
+              StudioHead v1.0 • © <?= date('Y') ?> by Kelompok 2
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!--   Core JS Files   -->
   <script src="<?= base_url('assets/js/core/popper.min.js') ?>"></script>
   <script src="<?= base_url('assets/js/core/bootstrap.min.js') ?>"></script>
