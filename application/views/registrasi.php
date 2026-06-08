@@ -1,17 +1,3 @@
-<!--
-=========================================================
-* Material Dashboard 3 - v3.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard
-* Copyright 2024 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,23 +5,18 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="<?= base_url('assets/img/apple-icon.png') ?>">
-  <link rel="icon" type="image/png" href="<?= base_url('assets/img/logo.png') ?>">
+  <link rel="icon" type="image/png" href="<?= base_url('assets/img/favicon.png') ?>">
   <title>StudioHead</title>
-  <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900">
-  <!-- Nucleo -->
   <link href="<?= base_url('assets/css/nucleo-icons.css') ?>" rel="stylesheet">
   <link href="<?= base_url('assets/css/nucleo-svg.css') ?>" rel="stylesheet">
-  <!-- Font Awesome -->
-  <!-- <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script> -->
-  <!-- Material Icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
-  <!-- Material Dashboard -->
   <link id="pagestyle" href="<?= base_url('assets/css/material-dashboard.css?v=3.2.0') ?>" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="bg-gray-200">
-  <main class="main-content  mt-0">
+  <main class="main-content mt-0">
     <div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');">
       <span class="mask bg-gradient-dark opacity-6"></span>
       <div class="container my-auto">
@@ -63,31 +44,47 @@
                     <div class="px-lg-4">
                       <div class="mb-4">
                         <h3 class="font-weight-bolder text-dark mb-1">Selamat Datang</h3>
-                        <p class="text-muted text-sm">Silakan masuk menggunakan akun Anda</p>
+                        <p class="text-muted text-sm">Silakan lengkapi data untuk mendaftar</p>
                       </div>
+
+                      <?php if (validation_errors()) : ?>
+                        <div class="alert alert-danger text-white text-sm py-2 px-3 rounded mb-3" role="alert">
+                          <?= validation_errors('<div class="d-flex align-items-center mb-1"><i class="material-symbols-rounded text-sm me-2">error</i> ', '</div>'); ?>
+                        </div>
+                      <?php endif; ?>
+
+                      <?php if ($this->session->flashdata('error')) : ?>
+                        <div class="alert alert-danger text-white text-sm py-2 px-3 rounded mb-3" role="alert">
+                          <div class="d-flex align-items-center">
+                            <i class="material-symbols-rounded text-sm me-2">error</i>
+                            <?= $this->session->flashdata('error'); ?>
+                          </div>
+                        </div>
+                      <?php endif; ?>
+
                       <form role="form" method="POST" action="<?= site_url('auth/signup') ?>" class="text-start">
                         <div class="mb-3">
                           <label class="form-label text-xs font-weight-bold text-muted text-uppercase">Nama Lengkap</label>
                           <div class="input-group input-group-outline">
-                            <input type="text" name="full_name" class="form-control" placeholder="Masukkan nama lengkap" required>
+                            <input type="text" name="full_name" class="form-control" placeholder="Masukkan nama lengkap" value="<?= set_value('full_name') ?>" required>
                           </div>
                         </div>
                         <div class="mb-3">
                           <label class="form-label text-xs font-weight-bold text-muted text-uppercase">Username</label>
                           <div class="input-group input-group-outline">
-                            <input type="text" name="username" class="form-control" placeholder="Masukkan username" required>
+                            <input type="text" name="username" class="form-control" placeholder="Masukkan username" value="<?= set_value('username') ?>" required>
                           </div>
                         </div>
                         <div class="mb-3">
                           <label class="form-label text-xs font-weight-bold text-muted text-uppercase">Email</label>
                           <div class="input-group input-group-outline">
-                            <input type="email" name="email" class="form-control" placeholder="Masukkan email" required>
+                            <input type="email" name="email" class="form-control" placeholder="Masukkan email" value="<?= set_value('email') ?>" required>
                           </div>
                         </div>
                         <div class="mb-3">
                           <label class="form-label text-xs font-weight-bold text-muted text-uppercase">Nomor Telepon</label>
                           <div class="input-group input-group-outline">
-                            <input type="text" name="phone" class="form-control" placeholder="Masukkan nomor telepon" required>
+                            <input type="text" name="phone" class="form-control" placeholder="Masukkan nomor telepon" value="<?= set_value('phone') ?>" required>
                           </div>
                         </div>
                         <div class="row">
@@ -97,7 +94,7 @@
                               <div class="input-group input-group-outline">
                                 <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
                               </div>
-                              <small id="passwordMessage" class="text-danger"></small>
+                              <small id="passwordMessage" class="text-danger style-xs" style="font-size: 11px; display: block; mt-1;"></small>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -106,7 +103,7 @@
                               <div class="input-group input-group-outline">
                                 <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Konfirmasi Password" required>
                               </div>
-                              <small id="confirmMessage" class="text-danger"></small>
+                              <small id="confirmMessage" class="text-danger style-xs" style="font-size: 11px; display: block; mt-1;"></small>
                             </div>
                           </div>
                         </div>
@@ -144,7 +141,13 @@
                   <a href="https://www.creative-tim.com" class="nav-link text-white" target="_blank">Creative Tim</a>
                 </li>
                 <li class="nav-item">
-                  <a href="javascript:void(0)" class="nav-link text-white" data-bs-toggle="modal" data-bs-target="#aboutUsModal">About Us</a>
+                  <a href="https://www.creative-tim.com/presentation" class="nav-link text-white" target="_blank">About Us</a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com/blog" class="nav-link text-white" target="_blank">Blog</a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-white" target="_blank">License</a>
                 </li>
               </ul>
             </div>
@@ -153,76 +156,6 @@
       </footer>
     </div>
   </main>
-
-  <!-- about us -->
-  <div class="modal fade" id="aboutUsModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content border-0 shadow">
-        <div class="modal-header bg-gradient-dark border-0">
-          <h5 class="modal-title text-white font-weight-bold">
-            <i class="fas fa-info-circle me-2"></i> About Us
-          </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body p-4">
-          <div class="text-center mb-4">
-            <h3 class="font-weight-extrabold text-dark mb-2">
-              StudioHead
-            </h3>
-            <p class="text-sm text-muted mx-auto" style="max-width: 500px;">
-              Platform booking studio modern untuk kebutuhan podcast, live streaming, webinar, dan content production Anda.
-            </p>
-          </div>
-          <hr class="horizontal dark my-4">
-          <div class="d-flex align-items-center mb-3">
-            <h6 class="font-weight-bold text-uppercase text-xs text-secondary letter-spacing-2 mb-0">
-              Tim Pengembang
-            </h6>
-          </div>
-          <div class="row g-3">
-            <div class="col-md-4">
-              <div class="card h-100 border shadow-none bg-gray-100 border-radius-lg text-center p-3">
-                <div class="avatar avatar-lg bg-gradient-primary rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center text-white font-weight-bold shadow-sm" style="width: 60px; height: 60px;">
-                  PM
-                </div>
-                <h6 class="mb-1 text-dark font-weight-bold text-sm">Dhea Rahmawati S.</h6>
-                <p class="text-xs text-muted mb-2">2350085001</p>
-                <span class="badge bg-sm bg-gradient-primary border-radius-sm mx-auto">Fullstack Dev</span>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card h-100 border shadow-none bg-gray-100 border-radius-lg text-center p-3">
-                <div class="avatar avatar-lg bg-gradient-info rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center text-white font-weight-bold shadow-sm" style="width: 60px; height: 60px;">
-                  BE
-                </div>
-                <h6 class="mb-1 text-dark font-weight-bold text-sm">Indra Gemanurlingga</h6>
-                <p class="text-xs text-muted mb-2">2350085005</p>
-                <span class="badge bg-sm bg-gradient-info border-radius-sm mx-auto">Backend Dev</span>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card h-100 border shadow-none bg-gray-100 border-radius-lg text-center p-3">
-                <div class="avatar avatar-lg bg-gradient-success rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center text-white font-weight-bold shadow-sm" style="width: 60px; height: 60px;">
-                  FE
-                </div>
-                <h6 class="mb-1 text-dark font-weight-bold text-sm">Rafi Ibrahim</h6>
-                <p class="text-xs text-muted mb-2">2350085010</p>
-                <span class="badge bg-sm bg-gradient-success border-radius-sm mx-auto">Frontend Dev</span>
-              </div>
-            </div>
-          </div>
-          <hr class="horizontal dark my-4">
-          <div class="text-center">
-            <small class="text-xs text-muted font-weight-bold">
-              StudioHead v1.0 • © <?= date('Y') ?> by Kelompok 2
-            </small>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!--   Core JS Files   -->
   <script src="<?= base_url('assets/js/core/popper.min.js') ?>"></script>
   <script src="<?= base_url('assets/js/core/bootstrap.min.js') ?>"></script>
   <script src="<?= base_url('assets/js/plugins/perfect-scrollbar.min.js') ?>"></script>
@@ -244,19 +177,16 @@
         let errors = [];
 
         if (password.length < 8) {
-          errors.push('Minimal 8 karakter');
+          errors.push('• Minimal 8 karakter');
         }
-
         if (!regexUpper.test(password)) {
-          errors.push('Harus mengandung huruf besar');
+          errors.push('• Harus ada 1 huruf BESAR');
         }
-
         if (!regexLower.test(password)) {
-          errors.push('Harus mengandung huruf kecil');
+          errors.push('• Harus ada 1 huruf kecil');
         }
-
         if (!regexNumber.test(password)) {
-          errors.push('Harus mengandung angka');
+          errors.push('• Harus ada 1 angka');
         }
 
         if (errors.length > 0) {
@@ -264,14 +194,13 @@
           return false;
         }
 
-        $('#passwordMessage').removeClass('text-danger').addClass('text-success').html('Password valid');
+        $('#passwordMessage').removeClass('text-danger').addClass('text-success').html('Password memenuhi syarat');
 
         if (confirmPassword.length > 0) {
           if (password !== confirmPassword) {
-            $('#confirmMessage').removeClass('text-success').addClass('text-danger').html('Konfirmasi password tidak cocok');
+            $('#confirmMessage').removeClass('text-success').addClass('text-danger').html('Konfirmasi tidak cocok');
             return false;
           }
-
           $('#confirmMessage').removeClass('text-danger').addClass('text-success').html('Password cocok');
         }
 
@@ -288,27 +217,18 @@
 
       $('form').on('submit', function(e) {
         if (!validatePassword()) {
+          e.preventDefault(); // Menghentikan submit ke server jika JS mendeteksi tidak valid
           Swal.fire({
-            icon: 'error',
-            title: 'Validasi Gagal',
-            text: 'Periksa kembali password yang Anda masukkan.'
+            icon: 'warning',
+            title: 'Syarat Password Kurang!',
+            text: 'Pastikan password minimal 8 karakter, memiliki huruf besar, huruf kecil, dan angka.',
+            confirmButtonColor: '#3085d6'
           });
-          e.preventDefault();
         }
       });
 
     });
   </script>
-  <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-  </script>
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 
 </html>

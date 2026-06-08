@@ -45,14 +45,15 @@ class Auth extends CI_Controller
         }
 
         $encrypted_password = $this->Auth_model->encrypt_password($password);
-        if ($encrypted_password != $user->password) {
+        if ($encrypted_password !== $user->password) {
             $this->session->set_flashdata('error', 'Username atau Password salah');
             redirect('auth');
         }
+
         // session
         $session_data = [
-            'id_user'   => $user->id_user,
-            'role_id'   => $user->id_role,
+            'id_user'   => $user->id,
+            'role_id'   => $user->role_id,
             'username'  => $user->username,
             'fullname'  => $user->full_name,
             'logged_in' => TRUE
@@ -71,10 +72,19 @@ class Auth extends CI_Controller
     private function _redirect_by_role()
     {
         $role_id = $this->session->userdata('role_id');
-        if ($role_id) {
-            redirect('dashboard');
-        } else {
-            redirect('auth/logout');
+        switch ($role_id) {
+            case 1:
+                redirect('admin/dashboard');
+                break;
+            case 2:
+                redirect('staff/dashboard');
+                break;
+            case 3:
+                redirect('customer/dashboard');
+                break;
+            default:
+                redirect('auth/logout');
+                break;
         }
     }
 
