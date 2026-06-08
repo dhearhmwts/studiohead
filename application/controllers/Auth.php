@@ -123,7 +123,6 @@ class Auth extends CI_Controller
         ];
 
         $this->Auth_model->insert_user($data);
-
         $this->session->set_flashdata('success', 'Registrasi berhasil. Silakan login.');
         redirect('auth');
     }

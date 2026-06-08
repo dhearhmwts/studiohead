@@ -29,7 +29,110 @@
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
   <link id="pagestyle" href="<?= base_url('assets/css/material-dashboard.css?v=3.2.0') ?>" rel="stylesheet" />
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
+<style>
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0 !important;
+    margin-left: 2px !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  ul.pagination {
+    margin-bottom: 0;
+    align-items: center;
+  }
+
+  .page-item.active .page-link {
+    background-image: linear-gradient(195deg, #42424a 0%, #191919 100%) !important;
+    border-color: #344767 !important;
+    color: #fff !important;
+    border-radius: 50% !important;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page-link {
+    padding: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7b809a !important;
+    border-radius: 50% !important;
+    margin: 0 2px;
+    border: none !important;
+    background-color: transparent !important;
+  }
+
+  .page-link:hover {
+    background-color: #eee !important;
+    border-radius: 50% !important;
+  }
+
+  .dataTables_info {
+    margin-left: 20px;
+    font-size: 0.775rem !important;
+    color: #7b809a !important;
+    font-weight: 400;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+
+  .table-responsive::-webkit-scrollbar {
+    height: 5px;
+  }
+
+  .table-responsive::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(195deg, #7b809a 0%, #42424a 100%);
+    opacity: 0.5;
+  }
+
+  .table-responsive::-webkit-scrollbar-thumb:hover {
+    background-image: linear-gradient(195deg, #42424a 0%, #191919 100%);
+  }
+</style>
 
 <body class="g-sidenav-show  bg-gray-100">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2" id="sidenav-main">
@@ -41,156 +144,169 @@
       </a>
     </div>
     <hr class="horizontal dark mt-0 mb-2">
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
-      <ul class="navbar-nav">
-
-        <li class="nav-item">
-          <a class="nav-link <?= ($menu == 'dashboard') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-            href="<?= site_url('dashboard') ?>">
-            <i class="material-symbols-rounded opacity-5">dashboard</i>
-            <span class="nav-link-text ms-1">Dashboard</span>
+    <div class="collapse navbar-collapse w-auto d-flex flex-column overflow-hidden" id="sidenav-collapse-main">
+      <ul class="navbar-nav flex-grow-1 w-100 px-0 mb-0">
+        <li class="nav-item mb-1">
+          <a class="nav-link py-2 <?= ($menu == 'dashboard') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('dashboard') ?>">
+            <i class="material-symbols-rounded opacity-5 text-sm">dashboard</i>
+            <span class="nav-link-text ms-1 text-sm">Dashboard</span>
           </a>
         </li>
 
         <?php if ($role_id == 1) : ?>
-          <li class="nav-item">
-            <a class="nav-link <?= ($menu == 'users') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-              href="<?= site_url('users') ?>">
-              <i class="material-symbols-rounded opacity-5">group</i>
-              <span class="nav-link-text ms-1">User Management</span>
+          <hr class="border-top">
+          <li class="nav-item mt-2 mb-1">
+            <h6 class="ps-4 ms-2 text-uppercase text-xxs text-dark font-weight-bolder opacity-5">Booking</h6>
+          </li>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'booking_list') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('booking/list') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">event</i>
+              <span class="nav-link-text ms-1 text-sm">Booking List</span>
             </a>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link <?= ($menu == 'studio') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-              href="<?= site_url('studio') ?>">
-              <i class="material-symbols-rounded opacity-5">podcasts</i>
-              <span class="nav-link-text ms-1">Studio Management</span>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'booking_cal') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('booking/calendar') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">event</i>
+              <span class="nav-link-text ms-1 text-sm">Booking Calendar</span>
             </a>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link <?= ($menu == 'package') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-              href="<?= site_url('package') ?>">
-              <i class="material-symbols-rounded opacity-5">inventory_2</i>
-              <span class="nav-link-text ms-1">Package Management</span>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'payment') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('payment/approval') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">payments</i>
+              <span class="nav-link-text ms-1 text-sm">Payments Approval</span>
             </a>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link <?= ($menu == 'addon') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-              href="<?= site_url('addon') ?>">
-              <i class="material-symbols-rounded opacity-5">mic_external_on</i>
-              <span class="nav-link-text ms-1">Add-On Equipment</span>
+          <hr class="border-top">
+          <li class="nav-item mt-2 mb-1">
+            <h6 class="ps-4 ms-2 text-uppercase text-xxs text-dark font-weight-bolder opacity-5">Management</h6>
+          </li>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'users') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('users') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">group</i>
+              <span class="nav-link-text ms-1 text-sm">User</span>
             </a>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link <?= ($menu == 'booking') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-              href="<?= site_url('booking') ?>">
-              <i class="material-symbols-rounded opacity-5">event</i>
-              <span class="nav-link-text ms-1">Booking Management</span>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'studio') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('studio') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">podcasts</i>
+              <span class="nav-link-text ms-1 text-sm">Studio</span>
             </a>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link <?= ($menu == 'membership') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-              href="<?= site_url('membership') ?>">
-              <i class="material-symbols-rounded opacity-5">workspace_premium</i>
-              <span class="nav-link-text ms-1">Membership</span>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'packages') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('packages') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">inventory_2</i>
+              <span class="nav-link-text ms-1 text-sm">Package</span>
             </a>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link <?= ($menu == 'payment') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-              href="<?= site_url('payment') ?>">
-              <i class="material-symbols-rounded opacity-5">payments</i>
-              <span class="nav-link-text ms-1">Payments</span>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'addons') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('addons') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">mic_external_on</i>
+              <span class="nav-link-text ms-1 text-sm">Add-On</span>
             </a>
           </li>
-
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'membership') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('membership') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">workspace_premium</i>
+              <span class="nav-link-text ms-1 text-sm">Membership Tier</span>
+            </a>
+          </li>
         <?php endif; ?>
+
         <?php if ($role_id == 2) : ?>
-
-          <li class="nav-item">
-            <a class="nav-link <?= ($menu == 'booking') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-              href="<?= site_url('booking') ?>">
-              <i class="material-symbols-rounded opacity-5">event</i>
-              <span class="nav-link-text ms-1">Booking</span>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'studio') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('studio/view') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">podcasts</i>
+              <span class="nav-link-text ms-1 text-sm">Studio</span>
             </a>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link <?= ($menu == 'payment') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-              href="<?= site_url('payment') ?>">
-              <i class="material-symbols-rounded opacity-5">payments</i>
-              <span class="nav-link-text ms-1">Payment Verification</span>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'packages') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('packages/view') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">inventory_2</i>
+              <span class="nav-link-text ms-1 text-sm">Package</span>
             </a>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link <?= ($menu == 'schedule') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-              href="<?= site_url('schedule') ?>">
-              <i class="material-symbols-rounded opacity-5">calendar_month</i>
-              <span class="nav-link-text ms-1">Schedule</span>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'membership') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('membership/view') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">workspace_premium</i>
+              <span class="nav-link-text ms-1 text-sm">Membership Tier</span>
             </a>
           </li>
-
+          <hr class="border-top">
+          <li class="nav-item mt-2 mb-1">
+            <h6 class="ps-4 ms-2 text-uppercase text-xxs text-dark font-weight-bolder opacity-5">Booking</h6>
+          </li>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'booking_list') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('booking/list') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">event</i>
+              <span class="nav-link-text ms-1 text-sm">Booking List</span>
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'booking_cal') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('booking/calendar') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">event</i>
+              <span class="nav-link-text ms-1 text-sm">Booking Calendar</span>
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'payment') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('payment/approval') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">payments</i>
+              <span class="nav-link-text ms-1 text-sm">Payments Approval</span>
+            </a>
+          </li>
         <?php endif; ?>
+
         <?php if ($role_id == 3) : ?>
-
-          <li class="nav-item">
-            <a class="nav-link <?= ($menu == 'studio') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-              href="<?= site_url('studio') ?>">
-              <i class="material-symbols-rounded opacity-5">podcasts</i>
-              <span class="nav-link-text ms-1">Studio</span>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'studio') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('studio/view') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">podcasts</i>
+              <span class="nav-link-text ms-1 text-sm">Studio</span>
             </a>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link <?= ($menu == 'booking') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-              href="<?= site_url('booking') ?>">
-              <i class="material-symbols-rounded opacity-5">event_available</i>
-              <span class="nav-link-text ms-1">My Booking</span>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'packages') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('packages/view') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">inventory_2</i>
+              <span class="nav-link-text ms-1 text-sm">Package</span>
             </a>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link <?= ($menu == 'membership') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-              href="<?= site_url('membership') ?>">
-              <i class="material-symbols-rounded opacity-5">workspace_premium</i>
-              <span class="nav-link-text ms-1">Membership</span>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'membership') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('membership/view') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">workspace_premium</i>
+              <span class="nav-link-text ms-1 text-sm">Membership Tier</span>
             </a>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link <?= ($menu == 'review') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-              href="<?= site_url('review') ?>">
-              <i class="material-symbols-rounded opacity-5">star</i>
-              <span class="nav-link-text ms-1">Review & Rating</span>
+          <hr class="border-top">
+          <li class="nav-item mt-2 mb-1">
+            <h6 class="ps-4 ms-2 text-uppercase text-xxs text-dark font-weight-bolder opacity-5">Booking</h6>
+          </li>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'booking_list') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('booking/list') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">event</i>
+              <span class="nav-link-text ms-1 text-sm">Booking Studio</span>
             </a>
           </li>
-
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 <?= ($menu == 'booking') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('booking') ?>">
+              <i class="material-symbols-rounded opacity-5 text-sm">event_available</i>
+              <span class="nav-link-text ms-1 text-sm">My Booking</span>
+            </a>
+          </li>
         <?php endif; ?>
-        <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-5">
-            Account
-          </h6>
-        </li>
+      </ul>
 
-        <li class="nav-item">
-          <a class="nav-link <?= ($menu == 'profile') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>"
-            href="<?= site_url('profile') ?>">
-            <i class="material-symbols-rounded opacity-5">person</i>
-            <span class="nav-link-text ms-1">Profile</span>
+      <ul class="navbar-nav w-100 px-0 mt-auto border-top pt-2">
+        <li class="nav-item mb-1">
+          <h6 class="ps-4 ms-2 text-uppercase text-xxs text-dark font-weight-bolder opacity-5 mb-1">Account</h6>
+        </li>
+        <li class="nav-item mb-1">
+          <a class="nav-link py-2 <?= ($menu == 'profile') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('profile') ?>">
+            <i class="material-symbols-rounded opacity-5 text-sm">person</i>
+            <span class="nav-link-text ms-1 text-sm">Profile</span>
           </a>
         </li>
-
         <li class="nav-item">
-          <a class="nav-link text-dark"
-            href="<?= site_url('auth/logout') ?>">
-            <i class="material-symbols-rounded opacity-5">logout</i>
-            <span class="nav-link-text ms-1">Logout</span>
+          <a class="nav-link py-2 text-danger" href="<?= site_url('auth/logout') ?>">
+            <i class="material-symbols-rounded opacity-8 text-sm text-danger">logout</i>
+            <span class="nav-link-text ms-1 text-sm fw-bold">Logout</span>
           </a>
         </li>
       </ul>

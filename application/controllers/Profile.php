@@ -29,7 +29,6 @@ class Profile extends CI_Controller
 
 		$this->display_page('profile', $data);
 	}
-
 	public function update()
 	{
 		$id_user = $this->session->userdata('id_user');

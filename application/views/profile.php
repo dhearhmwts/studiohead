@@ -42,36 +42,57 @@
         }
         ?>
 
-        <?php if (isset($user->role_id) && $user->role_id == 3) : ?>
+        <?php if (isset($user->id_role) && $user->id_role == 3) : ?>
           <div class="card card-plain border border-radius-xl mt-4 bg-gray-100">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="mb-0">Membership Information</h6>
-                <span class="badge bg-gradient-<?= $badge ?>">
+                <h6 class="mb-0">Informasi Keanggotaan</h6>
+                <span class="badge bg-gradient-<?= $badge ?? 'dark' ?>">
                   <?= $user->tier_name ?? 'Bronze' ?>
                 </span>
               </div>
+
               <div class="row">
                 <div class="col-6 mb-3">
-                  <small class="text-muted">Discount</small>
-                  <h6 class="mb-0"><?= $discount ?></h6>
+                  <small class="text-muted">Diskon</small>
+                  <h6 class="mb-0"><?= isset($user->discount_percentage) ? $user->discount_percentage . '%' : '0%' ?></h6>
                 </div>
                 <div class="col-6 mb-3">
                   <small class="text-muted">Status</small>
-                  <h6 class="mb-0 text-success">Active</h6>
+                  <h6 class="mb-0 text-success">Aktif</h6>
                 </div>
                 <div class="col-6 mb-3">
-                  <small class="text-muted">Total Booking</small>
-                  <h6 class="mb-0"><?= $user->total_booking ?? 0 ?></h6>
+                  <small class="text-muted">Total Reservasi</small>
+                  <h6 class="mb-0"><?= $user->total_booking_hours ?? 0 ?> Jam</h6>
                 </div>
                 <div class="col-6 mb-3">
-                  <small class="text-muted">Total Transaction</small>
-                  <h6 class="mb-0">
-                    Rp <?= number_format($user->total_transaction ?? 0, 0, ',', '.') ?>
-                  </h6>
+                  <small class="text-muted">Total Transaksi</small>
+                  <h6 class="mb-0">Rp <?= number_format($user->total_transaction ?? 0, 0, ',', '.') ?></h6>
                 </div>
               </div>
-              <button type="button" class="btn btn-outline-dark btn-sm mb-0 w-100" data-bs-toggle="modal" data-bs-target="#membershipBenefitModal">View Benefits</button>
+
+              <?php if (!empty($user->next_tier)) : ?>
+                <div class="mt-2 mb-3">
+                  <div class="d-flex justify-content-between mb-1">
+                    <small class="text-muted">Progres ke <?= $user->next_tier->tier_name ?></small>
+                    <small class="fw-bold"><?= round($user->progress) ?>%</small>
+                  </div>
+                  <div class="progress" style="height:8px;">
+                    <div class="progress-bar bg-gradient-success" role="progressbar" style="width: <?= round($user->progress) ?>%"></div>
+                  </div>
+                  <small class="text-muted d-block mt-2">
+                    Kurang transaksi sebesar <strong>Rp <?= number_format($user->remaining_transaction, 0, ',', '.') ?></strong> lagi untuk mencapai Keanggotaan <strong><?= $user->next_tier->tier_name ?></strong>
+                  </small>
+                </div>
+              <?php else : ?>
+                <div class="alert alert-success mt-2 mb-3 py-2 text-center">
+                  <small class="text-white d-block">Anda telah mencapai tingkatan keanggotaan tertinggi ✨</small>
+                </div>
+              <?php endif; ?>
+
+              <button type="button" class="btn btn-outline-dark btn-sm mb-0 w-100 btn-membership-info" data-id="<?= $user->id_tier ?>" data-bs-toggle="modal" data-bs-target="#membershipBenefitModal">
+                Lihat Keuntungan
+              </button>
             </div>
           </div>
         <?php endif; ?>
@@ -150,12 +171,107 @@
   </div>
 </div>
 
+<div class="modal fade" id="membershipBenefitModal" tabindex="-1" aria-labelledby="membershipBenefitModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-radius-xl">
+      <div class="modal-header border-bottom-0 pb-0">
+        <h5 class="modal-title font-weight-bolder" id="membershipBenefitModalLabel">
+          Informasi Keuntungan Membership
+        </h5>
+        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="membership-content">
+          <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Memuat...</span>
+            </div>
+            <p class="text-sm text-muted mt-2 mb-0">Mengambil data keuntungan...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script src="<?= base_url('assets/js/core/popper.min.js') ?>"></script>
 <script src="<?= base_url('assets/js/core/bootstrap.min.js') ?>"></script>
 <script>
   $(function() {
+    $(document).on('click', '.btn-membership-info', function() {
+      const id_tier = $(this).data('id');
+
+      $('#membership-content').html(`
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Memuat...</span>
+                </div>
+                <p class="text-sm text-muted mt-2 mb-0">Mengambil data keuntungan...</p>
+            </div>
+        `);
+
+      $.ajax({
+        url: "<?= site_url('membership/get_detail') ?>",
+        type: "POST",
+        dataType: "json",
+        data: {
+          id_tier: id_tier
+        },
+        success: function(res) {
+          const minTxFormatted = new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            maximumFractionDigits: 0
+          }).format(res.min_transaction);
+
+          let html = `
+                <div class="text-center mb-4">
+                    <span class="badge bg-gradient-dark px-3 py-2 text-sm">
+                        ${res.tier_name}
+                    </span>
+                </div>
+
+                <div class="bg-gray-100 p-3 border-radius-lg mb-4">
+                    <div class="row text-center">
+                        <div class="col-4 border-end">
+                            <small class="text-muted d-block mb-1">Diskon</small>
+                            <h5 class="mb-0 text-dark font-weight-bold">${res.discount_percent}%</h5>
+                        </div>
+                        <div class="col-4 border-end">
+                            <small class="text-muted d-block mb-1">Bonus</small>
+                            <h5 class="mb-0 text-dark font-weight-bold">${res.bonus_hour} Menit</h5>
+                        </div>
+                        <div class="col-4">
+                            <small class="text-muted d-block mb-1">Min. Transaksi</small>
+                            <h6 class="mb-0 text-success font-weight-bold" style="font-size: 0.9rem;">${minTxFormatted}</h6>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="px-2">
+                    <h6 class="text-sm font-weight-bold mb-2 text-dark">Deskripsi & Keuntungan:</h6>
+                    <div class="text-sm text-secondary loose-list-styling">
+                        ${res.description ? res.description : '<em class="text-muted">Tidak ada deskripsi tambahan.</em>'}
+                    </div>
+                </div>
+            `;
+
+          $('#membership-content').html(html);
+        },
+        error: function() {
+          $('#membership-content').html(`
+                <div class="text-center py-4">
+                    <p class="text-danger mb-0 text-sm font-weight-bold">Gagal memuat data. Silakan coba lagi.</p>
+                </div>
+            `);
+        }
+      });
+    });
+
     function validatePassword() {
       let password = $('#new_password').val().trim();
       let confirmPassword = $('#confirm_password').val().trim();

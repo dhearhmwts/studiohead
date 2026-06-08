@@ -28,6 +28,20 @@ class Auth_model extends CI_Model
 
     public function insert_user($data)
     {
-        return $this->db->insert('users', $data);
+        $this->db->trans_start();
+        $this->db->insert('users', $data);
+        $id_user = $this->db->insert_id();
+        $bronze = $this->db->where('LOWER(tier_name)', 'bronze')->get('membership_tiers')->row();
+        if ($bronze) {
+            $this->db->insert('user_memberships', [
+                'id_user'           => $id_user,
+                'id_tier'           => $bronze->id_tier,
+                'total_booking'     => 0,
+                'total_transaction' => 0,
+                'joined_at'         => date('Y-m-d H:i:s')
+            ]);
+        }
+        $this->db->trans_complete();
+        return $this->db->trans_status();
     }
 }
