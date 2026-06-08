@@ -14,8 +14,6 @@ class Membership extends CI_Controller
     {
         $role_id = $this->session->userdata('role_id');
 
-        $role_id = $this->session->userdata('role_id');
-
         $data = [
             'role_id' => $role_id,
             'title' => "Membership/Loyalty Tier Management",
