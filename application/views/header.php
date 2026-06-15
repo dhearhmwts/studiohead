@@ -28,6 +28,7 @@
   <link href="<?= base_url('assets/css/nucleo-svg.css') ?>" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link id="pagestyle" href="<?= base_url('assets/css/material-dashboard.css?v=3.2.0') ?>" rel="stylesheet" />
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -38,6 +39,8 @@
 
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 </head>
 <style>
   .table-responsive {
@@ -248,7 +251,7 @@
             </a>
           </li>
           <li class="nav-item mb-1">
-            <a class="nav-link py-2 <?= ($menu == 'payment') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('payment/approval') ?>">
+            <a class="nav-link py-2 <?= ($menu == 'payment') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('booking/paymentApproval') ?>">
               <i class="material-symbols-rounded opacity-5 text-sm">payments</i>
               <span class="nav-link-text ms-1 text-sm">Payments Approval</span>
             </a>
@@ -279,13 +282,13 @@
             <h6 class="ps-4 ms-2 text-uppercase text-xxs text-dark font-weight-bolder opacity-5">Booking</h6>
           </li>
           <li class="nav-item mb-1">
-            <a class="nav-link py-2 <?= ($menu == 'booking_list') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('booking/list') ?>">
+            <a class="nav-link py-2 <?= ($menu == 'booking_list') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('booking/create') ?>">
               <i class="material-symbols-rounded opacity-5 text-sm">event</i>
               <span class="nav-link-text ms-1 text-sm">Booking Studio</span>
             </a>
           </li>
           <li class="nav-item mb-1">
-            <a class="nav-link py-2 <?= ($menu == 'booking') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('booking') ?>">
+            <a class="nav-link py-2 <?= ($menu == 'booking') ? 'active bg-gradient-dark text-white' : 'text-dark' ?>" href="<?= site_url('booking/mybooking') ?>">
               <i class="material-symbols-rounded opacity-5 text-sm">event_available</i>
               <span class="nav-link-text ms-1 text-sm">My Booking</span>
             </a>

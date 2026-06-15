@@ -35,7 +35,7 @@ class Studio extends CI_Controller
 			'title' => 'Studio',
 			'sub_title' => 'List Studio',
 			'menu' => 'studio',
-			'studios' => $this->Studio_model->get_all()
+			'studios' => $this->Studio_model->get_all_active()
 		];
 
 		$this->display_page('studio_view', $data);

@@ -54,7 +54,7 @@
       <div class="d-flex justify-content-between align-items-center">
         <div>
           <h5 class="mb-0">Package Management</h5>
-          <small class="text-muted">Kelola paket studio dan kombinasi fasilitas yang tersedia</small>
+          <small class="text-muted">Cek paket studio dan kombinasi fasilitas yang cocok</small>
         </div>
       </div>
       <hr>
@@ -258,16 +258,54 @@
       width: '100%'
     });
 
-    $('#filter_package_name,#filter_price').on('keyup', filterPackage);
-    $('#filter_duration,#filter_addon').on('change', filterPackage);
+    $('#filter_package_name, #filter_price').on('keyup input', filterPackage);
+    $('#filter_duration').on('change', filterPackage);
+    $('#filter_addon').on('change.select2', filterPackage);
 
-    $('#btn_reset_filter').click(function() {
-      $('#filter_package_name').val('');
-      $('#filter_duration').val('');
-      $('#filter_price').val('');
-      $('#filter_addon').val(null).trigger('change');
-      filterPackage();
-    });
+    function filterPackage() {
+      let keyword = $('#filter_package_name').val().trim().toLowerCase();
+      let duration = $('#filter_duration').val();
+      let maxPrice = $('#filter_price').val() ? parseInt($('#filter_price').val()) : null;
+      let selectedAddons = $('#filter_addon').val() ? $('#filter_addon').val().map(String) : [];
+      let visible = 0;
+      $('.package-item').each(function() {
+        let show = true;
+        let name = ($(this).data('name') || '').toString().toLowerCase();
+        let dur = ($(this).data('duration') || '').toString();
+        let packagePrice = parseInt($(this).data('price')) || 0;
+        let packageAddons = $(this).data('addons') ? $(this).data('addons').toString().split(',').map(item => item.trim()) : [];
+
+        if (keyword && !name.includes(keyword)) {
+          show = false;
+        }
+
+        if (duration) {
+          if (duration === "5") {
+            if (parseInt(dur) < 5) show = false;
+          } else {
+            if (dur !== duration) show = false;
+          }
+        }
+
+        if (maxPrice !== null && packagePrice > maxPrice) {
+          show = false;
+        }
+
+        if (selectedAddons.length > 0) {
+          selectedAddons.forEach(function(id) {
+            if (!packageAddons.includes(id)) {
+              show = false;
+            }
+          });
+        }
+
+        $(this).toggle(show);
+
+        if (show) {
+          visible++;
+        }
+      });
+    }
 
     $(document).on('click', '.btn-preview', function() {
       let id_package = $(this).data('id');
@@ -338,33 +376,4 @@
       });
     });
   });
-
-  function filterPackage() {
-    let keyword = $('#filter_package_name').val().toLowerCase();
-    let duration = $('#filter_duration').val();
-    let price = $('#filter_price').val();
-    let addons = $('#filter_addon').val() || [];
-
-    let visible = 0;
-    $('.package-item').each(function() {
-      let show = true;
-      let name = $(this).data('name');
-      let dur = $(this).data('duration');
-      let packagePrice = $(this).data('price');
-      let packageAddons = ($(this).data('addons') + '').split(',');
-      if (keyword && !name.includes(keyword)) show = false;
-      if (duration && dur != duration) show = false;
-      if (price && parseInt(packagePrice) > parseInt(price)) show = false;
-      if (addons.length > 0) {
-        addons.forEach(function(id) {
-          if (!packageAddons.includes(id))
-            show = false;
-        });
-      }
-
-      $(this).toggle(show);
-      if (show)
-        visible++;
-    });
-  }
 </script>

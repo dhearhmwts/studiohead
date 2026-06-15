@@ -14,6 +14,15 @@ class Membership_model extends CI_Model
             ->result_array();
     }
 
+    public function get_all_tiers_active()
+    {
+        return $this->db
+            ->where('status', 'active')
+            ->order_by('min_transaction', 'ASC')
+            ->get($this->table_tier)
+            ->result_array();
+    }
+
     public function get_tier_by_id($id_tier)
     {
         return $this->db
@@ -66,13 +75,7 @@ class Membership_model extends CI_Model
     public function get_user_membership($id_user)
     {
         return $this->db
-            ->select('
-                um.*,
-                mt.tier_name,
-                mt.discount_percent,
-                mt.priority_level,
-                mt.bonus_hour
-            ')
+            ->select('um.*, mt.tier_name, mt.discount_percent, mt.priority_level, mt.bonus_hour')
             ->from('user_memberships um')
             ->join('membership_tiers mt', 'mt.id_tier = um.id_tier')
             ->where('um.id_user', $id_user)

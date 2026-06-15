@@ -18,6 +18,21 @@ class Studio_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
+    public function get_all_active($name = '', $type = '', $status = '')
+    {
+        $this->db->select('s.*, GROUP_CONCAT(si.image_path) as all_images');
+        $this->db->from('studios s');
+        $this->db->join('studio_images si', 'si.id_studio=s.id_studio', 'left');
+
+        if ($name != '') $this->db->like('s.studio_name', $name);
+        if ($type != '')  $this->db->where('s.studio_type', $type);
+        $this->db->where('s.status', 'active');
+
+        $this->db->group_by('s.id_studio');
+        $this->db->order_by('s.studio_name', 'ASC');
+        return $this->db->get()->result_array();
+    }
+
     public function get_by_id($id_studio)
     {
         return $this->db->where('id_studio', $id_studio)->get('studios')->row_array();

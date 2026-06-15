@@ -25,6 +25,21 @@ class Membership extends CI_Controller
         $this->display_page('membership', $data);
     }
 
+    public function view()
+    {
+        $role_id = $this->session->userdata('role_id');
+
+        $data = [
+            'role_id' => $role_id,
+            'title' => "Membership/Loyalty Tier Management",
+            'sub_title' => "Membership Tier",
+            'menu' => "membership",
+            'tiers' => $this->Membership_model->get_all_tiers_active(),
+        ];
+
+        $this->display_page('membership_view', $data);
+    }
+
     public function get_detail()
     {
         $id_tier = $this->input->post('id_tier');

@@ -70,6 +70,37 @@ class Addons_model extends CI_Model
         return $this->db->where('id_addon', $id_addon)->get($this->table)->row();
     }
 
+    public function get_by_ids($id)
+    {
+        return $this->db->where_in('id_addon', $id)->get('addons')->result_array();
+    }
+
+    private function available_stock_sql()
+    {
+        return "(a.stock - COALESCE(SUM(
+                    CASE
+                        WHEN b.booking_status IN ('pending','confirmed')
+                        THEN ba.qty
+                        ELSE 0
+                    END
+                ),0))";
+    }
+
+    public function get_available()
+    {
+        $stock = $this->available_stock_sql();
+        return $this->db
+            ->select("a.id_addon, a.addon_name, a.price, {$stock} AS available_stock")
+            ->from('addons a')
+            ->join('booking_addons ba', 'ba.id_addon=a.id_addon', 'left')
+            ->join('bookings b', 'b.id_booking=ba.id_booking', 'left')
+            ->where('a.status', 'active')
+            ->group_by('a.id_addon')
+            ->having('available_stock >', 0)
+            ->get()
+            ->result_array();
+    }
+
     public function insert($data)
     {
         return $this->db->insert($this->table, $data);

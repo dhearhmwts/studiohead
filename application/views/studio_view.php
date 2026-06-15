@@ -44,7 +44,7 @@
         <span class="fw-bold text-xs text-uppercase">Filter Pencarian</span>
       </div>
       <div class="row g-3 align-items-end">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <label class="form-label text-xs fw-bold text-muted mb-1">Nama Studio</label>
           <div class="input-group border rounded-3 px-2 bg-light">
             <input type="text" id="filter_studio_name" class="form-control border rounded-3 px-3 py-2 text-sm bg-transparent border-0" placeholder="Cari studio...">
@@ -65,16 +65,6 @@
               <option value="Live Streaming">Live Streaming</option>
               <option value="Hybrid Studio">Hybrid Studio</option>
               <option value="Photography">Photography</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <label class="form-label text-xs fw-bold text-muted mb-1">Status</label>
-          <div class="input-group border rounded-3 px-2 bg-light">
-            <select id="filter_status" class="form-select bg-transparent border-0">
-              <option value="">Semua Status</option>
-              <option value="active">Aktif</option>
-              <option value="inactive">Non Aktif</option>
             </select>
           </div>
         </div>
@@ -296,11 +286,10 @@
 
   $(function() {
     $('#filter_studio_name, #filter_capacity').on('keyup', filterStudio);
-    $('#filter_category, #filter_status').on('change', filterStudio);
+    $('#filter_category').on('change', filterStudio);
     $('#btn_reset_filter').click(function() {
       $('#filter_studio_name').val('');
       $('#filter_category').val('');
-      $('#filter_status').val('');
       $('#filter_capacity').val('');
       filterStudio();
     });
@@ -374,19 +363,16 @@
     let keyword = $('#filter_studio_name').val().toLowerCase();
     let capacity = $('#filter_capacity').val();
     let type = $('#filter_category').val().toLowerCase();
-    let status = $('#filter_status').val().toLowerCase();
     let visible = 0;
     $('.studio-item').each(function() {
       let nameData = $(this).data('name');
       let capacities = $(this).data('capacity');
       let typeData = $(this).data('type');
-      let statusData = $(this).data('status');
 
       let show = true;
       if (keyword && !nameData.includes(keyword)) show = false;
       if (capacity && parseInt(capacities) < parseInt(capacity)) show = false;
       if (type && typeData != type) show = false;
-      if (status && statusData != status) show = false;
 
       $(this).toggle(show);
       if (show) visible++;

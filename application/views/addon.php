@@ -219,10 +219,8 @@
       searching: false,
       lengthChange: false,
       autoWidth: false,
-
       dom: "<'row'<'col-sm-12'tr>>" +
         "<'row mt-3 align-items-center'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 d-flex justify-content-end'p>>",
-
       ajax: {
         url: base_url + 'addons/get_data',
         type: 'POST',

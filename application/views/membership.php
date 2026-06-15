@@ -50,13 +50,13 @@
         <div class="col-md-9">
           <label class="form-label text-xs fw-bold text-uppercase text-muted mb-1">Nama Tier</label>
           <div class="input-group bg-white rounded-3 shadow-sm">
-            <input type="text" id="filter_tier_name" class="form-control border-0 py-2" placeholder="Cari nama tier...">
+            <input type="text" id="filter_tier_name" class="form-control border-0 px-2" placeholder="Cari nama tier...">
           </div>
         </div>
         <div class="col-md-3">
           <label class="form-label text-xs fw-bold text-uppercase text-muted mb-1">Status</label>
           <div class="input-group bg-white rounded-3 shadow-sm">
-            <select id="filter_status" class="form-select border-0 py-2">
+            <select id="filter_status" class="form-select border-0 px-2">
               <option value="">Semua Status</option>
               <option value="active">Aktif</option>
               <option value="inactive">Non Aktif</option>
