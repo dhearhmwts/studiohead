@@ -53,3 +53,18 @@ $route['default_controller'] = 'auth';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['customer/dashboard'] = 'customer/dashboard';
+// --- RUTE API UNTUK PRODUK & LAYANAN STUDIO ---
+// Rute untuk Studio
+$route['api/studios'] = 'api/get_all_studios';
+$route['api/studios/(:num)'] = 'api/get_studio_by_id/$1';
+
+// Rute untuk Packages (Paket)
+$route['api/packages'] = 'api/get_all_packages';
+$route['api/packages/(:num)'] = 'api/get_package_by_id/$1';
+
+// Rute untuk Addons
+$route['api/addons'] = 'api/get_all_addons';
+$route['api/addons/(:num)'] = 'api/get_addon_by_id/$1';
+
+// Rute untuk Membership
+$route['api/membership/(:num)'] = 'api/get_membership_by_id/$1';

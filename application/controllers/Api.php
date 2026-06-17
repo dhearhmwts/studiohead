@@ -124,4 +124,70 @@ class Api extends CI_Controller
         $this->session->sess_destroy();
         echo json_encode(['status' => 'success', 'message' => 'Logout via API Berhasil']);
     }
-}
+// ==========================================
+    // INTI API GET: STUDIOS, PACKAGES, ADDONS, MEMBERSHIP
+    // ==========================================
+
+    // 1. Ambil Semua Daftar Studio
+    public function get_all_studios() {
+        $data = $this->db->get('studios')->result();
+        $this->output
+             ->set_content_type('application/json')
+             ->set_output(json_encode([
+                 'status' => 'success',
+                 'data' => $data
+             ]));
+    }
+
+    // 2. Ambil Satu Studio Berdasarkan ID
+    public function get_studio_by_id($id) {
+        $data = $this->db->get_where('studios', ['id_studio' => $id])->row();
+        if ($data) {
+            $this->output->set_content_type('application/json')->set_output(json_encode(['status' => 'success', 'data' => $data]));
+        } else {
+            $this->output->set_content_type('application/json')->set_status_header(404)->set_output(json_encode(['status' => 'error', 'message' => 'Studio tidak ditemukan']));
+        }
+    }
+
+    // 3. Ambil Semua Daftar Paket (Packages)
+    public function get_all_packages() {
+        $data = $this->db->get('packages')->result();
+        $this->output->set_content_type('application/json')->set_output(json_encode(['status' => 'success', 'data' => $data]));
+    }
+
+    // 4. Ambil Satu Paket Berdasarkan ID
+    public function get_package_by_id($id) {
+        $data = $this->db->get_where('packages', ['id_package' => $id])->row();
+        if ($data) {
+            $this->output->set_content_type('application/json')->set_output(json_encode(['status' => 'success', 'data' => $data]));
+        } else {
+            $this->output->set_content_type('application/json')->set_status_header(404)->set_output(json_encode(['status' => 'error', 'message' => 'Paket tidak ditemukan']));
+        }
+    }
+
+    // 5. Ambil Semua Daftar Addons
+    public function get_all_addons() {
+        $data = $this->db->get('addons')->result();
+        $this->output->set_content_type('application/json')->set_output(json_encode(['status' => 'success', 'data' => $data]));
+    }
+
+    // 6. Ambil Satu Addon Berdasarkan ID
+    public function get_addon_by_id($id) {
+        $data = $this->db->get_where('addons', ['id_addon' => $id])->row();
+        if ($data) {
+            $this->output->set_content_type('application/json')->set_output(json_encode(['status' => 'success', 'data' => $data]));
+        } else {
+            $this->output->set_content_type('application/json')->set_status_header(404)->set_output(json_encode(['status' => 'error', 'message' => 'Addon tidak ditemukan']));
+        }
+    }
+
+    // 7. Ambil Satu Tingkat Membership Berdasarkan ID
+    public function get_membership_by_id($id) {
+        $data = $this->db->get_where('membership_tiers', ['id_tier' => $id])->row();
+        if ($data) {
+            $this->output->set_content_type('application/json')->set_output(json_encode(['status' => 'success', 'data' => $data]));
+        } else {
+            $this->output->set_content_type('application/json')->set_status_header(404)->set_output(json_encode(['status' => 'error', 'message' => 'Tingkat membership tidak ditemukan']));
+        }
+    }
+    }

@@ -44,7 +44,7 @@ class Dashboard extends CI_Controller
 			'menu' => 'dashboard',
 		];
 
-		$this->display_page('dashboard', $data);
+		$this->display_page('dashboard_admin', $data);
 	}
 
 	private function dashboard_staff()
