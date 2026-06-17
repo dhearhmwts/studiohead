@@ -30,6 +30,7 @@ class Booking extends CI_Controller
             'role_id' => $role_id,
             'title' => "Booking&nbsp;&nbsp;/&nbsp;&nbsp;Booking Studio",
             'sub_title' => "Select Studio",
+            'menu' => 'booking',
             'studios' => $this->Studio_model->get_all_active()
         ];
 
@@ -63,6 +64,7 @@ class Booking extends CI_Controller
             'role_id' => $role_id,
             'title' => "Booking&nbsp;&nbsp;/&nbsp;&nbsp;Booking Studio",
             'sub_title' => "Booking Detail",
+            'menu' => 'booking',
             'studio' => $this->Studio_model->get_by_id($id_studio),
             'member_disc' => $membership_det['discount_percent'],
             'packages' => $this->Package_model->get_all(),
@@ -299,6 +301,7 @@ class Booking extends CI_Controller
             'role_id' => $role_id,
             'title' => "Booking&nbsp;&nbsp;/&nbsp;&nbsp;Booking Studio&nbsp;&nbsp;/&nbsp;&nbsp;Booking Detail",
             'sub_title' => "Preview",
+            'menu' => 'booking',
             'booking' => $booking,
             'addons' => $this->Booking_model->getBookingAddons($id_booking),
             'logs' => $this->Booking_model->getBookingLogs($id_booking)
@@ -318,6 +321,7 @@ class Booking extends CI_Controller
             'role_id' => $role_id,
             'title' => 'Booking',
             'sub_title' => 'My Booking',
+            'menu' => 'booking',
             'summary' => $this->Booking_model->get_mybooking_summary($id_user)
         ];
 
@@ -340,7 +344,7 @@ class Booking extends CI_Controller
             if ($row->booking_status === 'pending') {
                 $booking_status = '<span class="badge px-2.5 py-1 rounded bg-warning text-dark fw-bold text-uppercase" style="font-size: 10px;">Pending</span>';
             } elseif ($row->booking_status === 'waiting_approval') {
-                $booking_status = '<span class="badge px-2.5 py-1 rounded bg-info text-dark fw-bold text-uppercase" style="font-size: 10px;">Waiting Approval</span>';
+                $booking_status = '<span class="badge px-2.5 py-1 rounded bg-info text-white fw-bold text-uppercase" style="font-size: 10px;">Waiting Approval</span>';
             } elseif ($row->booking_status === 'approved') {
                 $booking_status = '<span class="badge px-2.5 py-1 rounded bg-success text-white fw-bold text-uppercase" style="font-size: 10px;">Approved</span>';
             } elseif ($row->booking_status === 'ongoing') {
@@ -354,7 +358,7 @@ class Booking extends CI_Controller
             if ($row->payment_status === 'unpaid') {
                 $payment_status = '<span class="badge px-2.5 py-1 rounded bg-warning text-dark fw-bold text-uppercase" style="font-size: 10px;">Unpaid</span>';
             } elseif ($row->payment_status === 'waiting' || $row->payment_status === 'waiting_verification') {
-                $payment_status = '<span class="badge px-2.5 py-1 rounded bg-info text-dark fw-bold text-uppercase" style="font-size: 10px;">Waiting</span>';
+                $payment_status = '<span class="badge px-2.5 py-1 rounded bg-info text-white fw-bold text-uppercase" style="font-size: 10px;">Waiting</span>';
             } elseif ($row->payment_status === 'paid') {
                 $payment_status = '<span class="badge px-2.5 py-1 rounded bg-success text-white fw-bold text-uppercase" style="font-size: 10px;">Paid</span>';
             } else {
@@ -493,6 +497,7 @@ class Booking extends CI_Controller
             'role_id' => $role_id,
             'title' => 'Booking&nbsp;&nbsp;/&nbsp;&nbsp;Payment Approval',
             'sub_title' => 'Waiting Verification',
+            'menu' => 'payment',
             'studios' => $this->Studio_model->get_all_active(),
             'summary' => $this->Booking_model->get_payment_approval_summary()
         ];
@@ -605,12 +610,7 @@ class Booking extends CI_Controller
                     'updated_date' => date('Y-m-d H:i:s')
                 ]);
 
-            $this->Booking_model->insertLog(
-                $id_booking,
-                'waiting_approval',
-                'approved',
-                $staff_id
-            );
+            $this->Booking_model->insertLog($id_booking, 'waiting_approval', 'approved', $staff_id);
         } else {
             $this->db
                 ->where('id_booking', $id_booking)
@@ -631,12 +631,7 @@ class Booking extends CI_Controller
                     'updated_date' => date('Y-m-d H:i:s')
                 ]);
 
-            $this->Booking_model->insertLog(
-                $id_booking,
-                'waiting_approval',
-                'cancelled',
-                $staff_id
-            );
+            $this->Booking_model->insertLog($id_booking, 'waiting_approval', 'cancelled', $staff_id);
         }
 
         if ($this->db->trans_status() === false) {
@@ -666,6 +661,7 @@ class Booking extends CI_Controller
             'role_id' => $role_id,
             'title' => 'Booking&nbsp;&nbsp;/&nbsp;&nbsp;Booking List',
             'sub_title' => 'Manage Booking',
+            'menu' => 'booking_list',
             'studios' => $this->Studio_model->get_all_active(),
             'summary' => $this->Booking_model->get_booking_list_summary()
         ];
@@ -681,75 +677,84 @@ class Booking extends CI_Controller
 
         $list = $this->Booking_model->get_booking_list();
         $data = [];
-        $no = $_POST['start'];
+        $no   = $_POST['start'];
+
         foreach ($list as $row) {
             $no++;
 
             if ($row->booking_status === 'pending') {
-                $booking_status = '<span class="badge px-2.5 py-1 rounded bg-warning text-dark fw-bold text-uppercase" style="font-size: 10px;">Pending</span>';
+                $booking_status = '<span class="badge px-3 py-1.5 rounded-pill bg-warning text-dark fw-bold text-uppercase text-xxs shadow-none">Pending</span>';
             } elseif ($row->booking_status === 'waiting_approval') {
-                $booking_status = '<span class="badge px-2.5 py-1 rounded bg-info text-dark fw-bold text-uppercase" style="font-size: 10px;">Waiting Approval</span>';
+                $booking_status = '<span class="badge px-3 py-1.5 rounded-pill bg-info text-white fw-bold text-uppercase text-xxs shadow-none">Waiting Approval</span>';
             } elseif ($row->booking_status === 'approved') {
-                $booking_status = '<span class="badge px-2.5 py-1 rounded bg-success text-white fw-bold text-uppercase" style="font-size: 10px;">Approved</span>';
+                $booking_status = '<span class="badge px-3 py-1.5 rounded-pill bg-success text-white fw-bold text-uppercase text-xxs shadow-none">Approved</span>';
             } elseif ($row->booking_status === 'ongoing') {
-                $booking_status = '<span class="badge px-2.5 py-1 rounded bg-primary text-white fw-bold text-uppercase" style="font-size: 10px;">Ongoing</span>';
+                $booking_status = '<span class="badge px-3 py-1.5 rounded-pill bg-primary text-white fw-bold text-uppercase text-xxs shadow-none">Ongoing</span>';
             } elseif ($row->booking_status === 'completed') {
-                $booking_status = '<span class="badge px-2.5 py-1 rounded bg-dark text-white fw-bold text-uppercase" style="font-size: 10px;">Completed</span>';
+                $booking_status = '<span class="badge px-3 py-1.5 rounded-pill bg-dark text-white fw-bold text-uppercase text-xxs shadow-none">Completed</span>';
             } else {
-                $booking_status = '<span class="badge px-2.5 py-1 rounded bg-danger text-white fw-bold text-uppercase" style="font-size: 10px;">Cancelled</span>';
+                $booking_status = '<span class="badge px-3 py-1.5 rounded-pill bg-danger text-white fw-bold text-uppercase text-xxs shadow-none">Cancelled</span>';
             }
 
             if ($row->payment_status === 'unpaid') {
-                $payment_status = '<span class="badge px-2.5 py-1 rounded bg-warning text-dark fw-bold text-uppercase" style="font-size: 10px;">Unpaid</span>';
+                $payment_status = '<span class="badge px-3 py-1.5 rounded-pill bg-warning text-dark fw-bold text-uppercase text-xxs shadow-none">Unpaid</span>';
             } elseif ($row->payment_status === 'waiting' || $row->payment_status === 'waiting_verification') {
-                $payment_status = '<span class="badge px-2.5 py-1 rounded bg-info text-dark fw-bold text-uppercase" style="font-size: 10px;">Waiting</span>';
+                $payment_status = '<span class="badge px-3 py-1.5 rounded-pill bg-info text-white fw-bold text-uppercase text-xxs shadow-none">Waiting</span>';
             } elseif ($row->payment_status === 'paid') {
-                $payment_status = '<span class="badge px-2.5 py-1 rounded bg-success text-white fw-bold text-uppercase" style="font-size: 10px;">Paid</span>';
+                $payment_status = '<span class="badge px-3 py-1.5 rounded-pill bg-success text-white fw-bold text-uppercase text-xxs shadow-none">Paid</span>';
             } else {
-                $payment_status = '<span class="badge px-2.5 py-1 rounded bg-danger text-white fw-bold text-uppercase" style="font-size: 10px;">Rejected</span>';
+                $payment_status = '<span class="badge px-3 py-1.5 rounded-pill bg-danger text-white fw-bold text-uppercase text-xxs shadow-none">Rejected</span>';
             }
 
             $action = '
-                        <div class="d-flex gap-1">
-                            <button type="button"
-                                    class="btn btn-primary btn-sm btn-detail"
-                                    data-id="' . $row->id_booking . '">
-                                Detail
-                            </button>
+            <div class="d-flex gap-2 justify-content-center align-items-center">
+                <button type="button" title="Detail" 
+                        class="btn btn-icon-only btn-sm btn-outline-dark btn-delete mb-0 d-flex align-items-center justify-content-center rounded-circle btn-detail"
+                        data-id="' . $row->id_booking . '"
+                        style="width:30px; height:30px;">
+                    <span class="material-symbols-outlined" style="font-size: 16px;">visibility</span>
+                </button>';
 
-                            <button type="button"
-                                    class="btn btn-light btn-sm btn-reschedule"
-                                    data-id="' . $row->id_booking . '">
-                                Reschedule
-                            </button>
+            if (in_array($row->booking_status, ['pending', 'waiting_approval', 'approved'])) {
+                $action .= '
+                <button type="button" title="Reschedule"
+                        class="btn btn-icon-only btn-sm btn-outline-warning btn-delete mb-0 d-flex align-items-center justify-content-center rounded-circl btn-reschedule"
+                        data-id="' . $row->id_booking . '"
+                        style="width:30px; height:30px;">
+                    <span class="material-symbols-outlined" style="font-size: 16px;">update</span>
+                </button>
 
-                            <button type="button"
-                                    class="btn btn-dark btn-sm btn-cancel"
-                                    data-id="' . $row->id_booking . '">
-                                Cancel
-                            </button>
-                        </div>
-                    ';
+                <button type="button" title="Cancel" 
+                        class="btn btn-icon-only btn-sm btn-outline-danger btn-delete mb-0 d-flex align-items-center justify-content-center rounded-circle btn-cancel" 
+                        data-id="' . $row->id_booking . '"
+                        style="width:30px; height:30px;">
+                    <span class="material-symbols-outlined" style="font-size: 16px;">block</span>
+                </button>';
+            }
+
+            $action .= '</div>';
+
             $data[] = [
                 $no,
-                $row->booking_code,
-                $row->full_name,
-                $row->studio_name,
-                date('d M Y', strtotime($row->booking_date)),
-                substr($row->start_time, 0, 5) . ' - ' . substr($row->end_time, 0, 5),
-                // 'Rp ' . number_format($row->total_price, 0, ',', '.'),
+                '<span class="fw-bold text-dark text-sm">' . $row->booking_code . '</span>',
+                '<div class="fw-semibold text-dark text-sm">' . $row->full_name . '</div>',
+                '<div class="text-secondary text-sm">' . $row->studio_name . '</div>',
+                '<div class="text-dark text-sm">' . date('d M Y', strtotime($row->booking_date)) . '</div>',
+                '<span class="badge bg-light text-dark border text-xxs px-2 py-1"><span class="material-symbols-outlined align-middle text-xxs me-1">schedule</span>' . substr($row->start_time, 0, 5) . ' - ' . substr($row->end_time, 0, 5) . '</span>',
                 $booking_status,
                 $payment_status,
                 $action
             ];
         }
 
-        echo json_encode([
-            'draw' => $_POST['draw'],
-            'recordsTotal' => $this->Booking_model->count_all_booking_list(),
-            'recordsFiltered' => $this->Booking_model->count_filtered_booking_list(),
-            'data' => $data
-        ]);
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode([
+                "draw"            => intval($_POST['draw']),
+                "recordsTotal"    => $this->Booking_model->count_all_booking_list(),
+                "recordsFiltered" => $this->Booking_model->count_filtered_booking_list(),
+                "data"            => $data,
+            ]));
     }
 
     public function getBookingDetail()
@@ -785,16 +790,20 @@ class Booking extends CI_Controller
             show_404();
         }
 
-        $staff_id = $this->session->userdata('id_user');
+        $staff_id   = $this->session->userdata('id_user');
         $id_booking = $this->input->post('id_booking');
-        $reason = trim($this->input->post('reason'));
-        $booking = $this->Booking_model->getDetail($id_booking);
+        $reason     = trim($this->input->post('reason'));
+        $booking    = $this->Booking_model->getDetail($id_booking);
         if (!$booking) {
-            return $this->json(['status' => false, 'message' => 'Data booking tidak ditemukan']);
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['status' => false, 'message' => 'Data booking tidak ditemukan']));
         }
 
         if (in_array($booking['booking_status'], ['completed', 'cancelled'])) {
-            return $this->json(['status' => false, 'message' => 'Booking tidak dapat dibatalkan']);
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['status' => false, 'message' => 'Booking tidak dapat dibatalkan']));
         }
 
         $this->db->trans_begin();
@@ -802,24 +811,23 @@ class Booking extends CI_Controller
             ->where('id_booking', $id_booking)
             ->update('bookings', [
                 'booking_status' => 'cancelled',
-                'updated_by' => $staff_id,
-                'updated_date' => date('Y-m-d H:i:s')
+                'updated_by'     => $staff_id,
+                'updated_date'   => date('Y-m-d H:i:s')
             ]);
-        $this->Booking_model->insertLog(
-            $id_booking,
-            $booking['booking_status'],
-            'cancelled',
-            $staff_id,
-            $reason
-        );
+
+        $this->Booking_model->insertLog($id_booking, $booking['booking_status'], 'cancelled', $staff_id);
 
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();
-            return $this->json(['status' => false, 'message' => 'Booking gagal dibatalkan']);
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['status' => false, 'message' => 'Booking gagal dibatalkan']));
         }
         $this->db->trans_commit();
 
-        return $this->json(['status' => true, 'message' => 'Booking berhasil dibatalkan']);
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode(['status' => true, 'message' => 'Booking berhasil dibatalkan']));
     }
 
     public function rescheduleBooking()
@@ -833,50 +841,224 @@ class Booking extends CI_Controller
         $booking_date = $this->input->post('booking_date');
         $start_time   = $this->input->post('start_time');
         $note         = trim($this->input->post('note'));
+
         $booking      = $this->Booking_model->getDetail($id_booking);
         if (!$booking) {
-            return $this->json(['status' => false, 'message' => 'Data booking tidak ditemukan']);
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['status' => false, 'message' => 'Data booking tidak ditemukan']));
         }
 
         if (in_array($booking['booking_status'], ['ongoing', 'completed', 'cancelled'])) {
-            return $this->json(['status' => false, 'message' => 'Booking tidak dapat direschedule']);
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['status' => false, 'message' => 'Booking tidak dapat direschedule']));
         }
 
         $end_time = date('H:i', strtotime($start_time . " +{$booking['duration_hour']} hour"));
-        $cek = $this->Booking_model->checkSchedule($booking['id_studio'], $booking_date, $start_time, $end_time, $id_booking);
+        $cek = $this->Booking_model->checkSchedule($booking['id_studio'], $booking_date, $start_time, $end_time);
+        // print_r($this->db->last_query());
+        // exit();
         if ($cek > 0) {
-            return $this->json(['status' => false, 'message' => 'Jadwal studio bentrok dengan booking lain']);
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['status' => false, 'message' => 'Jadwal studio bentrok dengan booking lain']));
         }
-
-        $old_schedule = $booking['booking_date'] . ' ' . substr($booking['start_time'], 0, 5) . ' - ' . substr($booking['end_time'], 0, 5);
-        $new_schedule = $booking_date . ' ' . $start_time . ' - ' . $end_time;
 
         $this->db->trans_begin();
         $this->db
             ->where('id_booking', $id_booking)
             ->update('bookings', [
                 'booking_date' => $booking_date,
-                'start_time' => $start_time,
-                'end_time' => $end_time,
-                'updated_by' => $staff_id,
+                'start_time'   => $start_time,
+                'end_time'     => $end_time,
+                'updated_by'   => $staff_id,
                 'updated_date' => date('Y-m-d H:i:s')
             ]);
 
-        $this->Booking_model->insertLog(
-            $id_booking,
-            $booking['booking_status'],
-            $booking['booking_status'],
-            $staff_id,
-            'Reschedule dari ' . $old_schedule . ' menjadi ' . $new_schedule . '. ' . $note
-        );
-
+        $this->Booking_model->insertLog($id_booking, $booking['booking_status'], $booking['booking_status'] . "- reschedule", $staff_id);
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();
-            return $this->json(['status' => false, 'message' => 'Reschedule gagal']);
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['status' => false, 'message' => 'Reschedule gagal']));
         }
+
         $this->db->trans_commit();
 
-        return $this->json(['status' => true, 'message' => 'Jadwal booking berhasil diperbarui']);
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode(['status' => true, 'message' => 'Jadwal booking berhasil diperbarui']));
+    }
+
+    public function calendar()
+    {
+        $role_id = $this->session->userdata('role_id');
+        $studios = $this->db->get('studios')->result_array();
+        $summary = $this->Booking_model->get_schedule_summary();
+
+        $data = [
+            'role_id'        => $role_id,
+            'title'          => "Booking&nbsp;&nbsp;/&nbsp;&nbsp;Booking Calendar",
+            'sub_title'      => "Today's Schedule",
+            'menu'           => "booking_cal",
+            'studios'        => $studios,
+            'summary'        => $summary,
+            'total_bookings' => $summary['total'] ?? 0
+        ];
+
+        $this->display_page('booking_calendar', $data);
+    }
+
+    public function getCalendarEvents()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        $events = [];
+        $bookings = $this->Booking_model->get_today_schedule();
+        foreach ($bookings as $booking) {
+            $events[] = [
+                'id'         => $booking['id_booking'],
+                'resourceId' => $booking['id_studio'],
+                'title'      => $booking['booking_code'] . ' - ' . $booking['full_name'],
+                'start'      => $booking['booking_date'] . 'T' . $booking['start_time'],
+                'end'        => $booking['booking_date'] . 'T' . $booking['end_time'],
+                'status'     => $booking['booking_status']
+            ];
+        }
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode($events));
+    }
+
+    public function getScheduleDetail()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        $id_booking = $this->input->post('id_booking');
+        $booking = $this->Booking_model->get_schedule_detail($id_booking);
+        if (!$booking) {
+            $response = [
+                'status' => false,
+                'message' => 'Booking tidak ditemukan'
+            ];
+        } else {
+            $response = [
+                'status' => true,
+                'booking' => $booking,
+                'addons' => $this->Booking_model->get_schedule_addons($id_booking),
+                'logs' => $this->Booking_model->get_schedule_logs($id_booking)
+            ];
+        }
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode($response));
+    }
+
+    public function startSession()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        $staff_id = $this->session->userdata('id_user');
+        $id_booking = $this->input->post('id_booking');
+
+        $booking = $this->Booking_model->get_schedule_detail($id_booking);
+
+        $response = [
+            'status' => false,
+            'message' => 'Terjadi kesalahan'
+        ];
+
+        if (!$booking) {
+            $response['message'] = 'Booking tidak ditemukan';
+        } elseif ($booking['booking_status'] != 'approved') {
+            $response['message'] = 'Booking tidak dapat dimulai';
+        } else {
+            $this->db->trans_begin();
+            $this->db
+                ->where('id_booking', $id_booking)
+                ->update('bookings', [
+                    'booking_status' => 'ongoing',
+                    'updated_by' => $staff_id,
+                    'updated_date' => date('Y-m-d H:i:s')
+                ]);
+
+            $this->Booking_model->insertLog($id_booking, 'approved', 'ongoing', $staff_id);
+            if ($this->db->trans_status() === false) {
+                $this->db->trans_rollback();
+                $response['message'] = 'Gagal memulai sesi';
+            } else {
+                $this->db->trans_commit();
+                $response = [
+                    'status' => true,
+                    'message' => 'Session berhasil dimulai'
+                ];
+            }
+        }
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode($response));
+    }
+
+    public function completeSession()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        $staff_id = $this->session->userdata('id_user');
+        $id_booking = $this->input->post('id_booking');
+
+        $booking = $this->Booking_model->get_schedule_detail($id_booking);
+
+        $response = [
+            'status' => false,
+            'message' => 'Terjadi kesalahan'
+        ];
+
+        if (!$booking) {
+            $response['message'] = 'Booking tidak ditemukan';
+        } elseif ($booking['booking_status'] != 'ongoing') {
+            $response['message'] = 'Booking belum berlangsung';
+        } else {
+            $this->db->trans_begin();
+            $this->db
+                ->where('id_booking', $id_booking)
+                ->update('bookings', [
+                    'booking_status' => 'completed',
+                    'updated_by' => $staff_id,
+                    'updated_date' => date('Y-m-d H:i:s')
+                ]);
+
+            $this->Booking_model->insertLog($id_booking, 'ongoing', 'completed', $staff_id);
+            if ($this->db->trans_status() === false) {
+                $this->db->trans_rollback();
+                $response['message'] = 'Gagal menyelesaikan sesi';
+            } else {
+                $this->db->trans_commit();
+                $response = [
+                    'status' => true,
+                    'message' => 'Booking berhasil diselesaikan'
+                ];
+            }
+        }
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode($response));
     }
 
     private function display_page($main_content, $data = null)

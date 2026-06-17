@@ -419,4 +419,89 @@ class Booking_model extends CI_Model
                 ->count_all_results('bookings')
         ];
     }
+
+    // booking calendar
+    public function get_today_schedule()
+    {
+        return $this->db
+            ->select("b.id_booking, b.booking_code, b.booking_date, b.start_time, b.end_time, b.duration_hour, b.total_price, b.booking_status, u.full_name, s.id_studio, s.studio_name, s.category")
+            ->from('bookings b')
+            ->join('users u', 'u.id_user=b.id_user')
+            ->join('studios s', 's.id_studio=b.id_studio')
+            ->where('b.booking_date', date('Y-m-d'))
+            ->where_in('b.booking_status', [
+                'approved',
+                'ongoing',
+                'completed'
+            ])
+            ->order_by('b.start_time', 'ASC')
+            ->get()
+            ->result_array();
+    }
+
+    public function get_schedule_summary()
+    {
+        return [
+            'approved' => $this->db
+                ->where('booking_date', date('Y-m-d'))
+                ->where('booking_status', 'approved')
+                ->count_all_results('bookings'),
+
+            'ongoing' => $this->db
+                ->where('booking_date', date('Y-m-d'))
+                ->where('booking_status', 'ongoing')
+                ->count_all_results('bookings'),
+
+            'completed' => $this->db
+                ->where('booking_date', date('Y-m-d'))
+                ->where('booking_status', 'completed')
+                ->count_all_results('bookings'),
+
+            'total' => $this->db
+                ->where('booking_date', date('Y-m-d'))
+                ->where_in('booking_status', [
+                    'approved',
+                    'ongoing',
+                    'completed'
+                ])
+                ->count_all_results('bookings')
+        ];
+    }
+
+    public function get_schedule_detail($id_booking)
+    {
+        return $this->db
+            ->select("b.*,u.full_name,u.email,u.phone,s.studio_name,s.category,p.payment_status,pk.package_name")
+            ->from('bookings b')
+            ->join('users u', 'u.id_user=b.id_user')
+            ->join('studios s', 's.id_studio=b.id_studio')
+            ->join('payments p', 'p.id_booking=b.id_booking', 'left')
+            ->join('packages pk', 'pk.id_package=b.id_package', 'left')
+            ->where('b.id_booking', $id_booking)
+            ->get()
+            ->row_array();
+    }
+
+    public function get_schedule_addons($id_booking)
+    {
+        return $this->db
+            ->select("ba.qty, ba.price, a.addon_name")
+            ->from('booking_addons ba')
+            ->join('addons a', 'a.id_addon=ba.id_addon')
+            ->where('ba.id_booking', $id_booking)
+            ->get()
+            ->result_array();
+    }
+
+    public function get_schedule_logs($id_booking)
+    {
+        return $this->db
+            ->select("bl.*, u.full_name")
+            ->from('booking_logs bl')
+            ->join('users u', 'u.id_user=bl.changed_by', 'left')
+            ->where('bl.id_booking', $id_booking)
+            ->order_by('bl.changed_at', 'ASC')
+            ->get()
+            ->result_array();
+    }
 }

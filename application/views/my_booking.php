@@ -116,15 +116,15 @@
         <table id="table" class="table align-middle mb-0 text-dark" style="font-size: 14px;">
           <thead style="background-color: #f8f9fa;">
             <tr>
-              <th width="4%" class="text-secondary fw-bold text-uppercase border-0 py-3 px-3" style="font-size: 11px; letter-spacing: 0.5px;">#</th>
-              <th class="text-secondary fw-bold text-uppercase border-0 py-3" style="font-size: 11px; letter-spacing: 0.5px;">Kode Booking</th>
-              <th class="text-secondary fw-bold text-uppercase border-0 py-3" style="font-size: 11px; letter-spacing: 0.5px;">Studio</th>
-              <th class="text-secondary fw-bold text-uppercase border-0 py-3" style="font-size: 11px; letter-spacing: 0.5px;">Tanggal</th>
-              <th class="text-secondary fw-bold text-uppercase border-0 py-3" style="font-size: 11px; letter-spacing: 0.5px;">Jam Main</th>
-              <th class="text-secondary fw-bold text-uppercase border-0 py-3" style="font-size: 11px; letter-spacing: 0.5px;">Total Biaya</th>
-              <th class="text-secondary fw-bold text-uppercase border-0 py-3" style="font-size: 11px; letter-spacing: 0.5px;">Status Booking</th>
-              <th class="text-secondary fw-bold text-uppercase border-0 py-3" style="font-size: 11px; letter-spacing: 0.5px;">Status Payment</th>
-              <th width="8%" class="text-secondary fw-bold text-uppercase border-0 py-3 text-center" style="font-size: 11px; letter-spacing: 0.5px;">Aksi</th>
+              <th width="4%" class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center px-3" style="font-size: 11px; letter-spacing: 0.5px;">#</th>
+              <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center" style="font-size: 11px; letter-spacing: 0.5px;">Kode Booking</th>
+              <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center" style="font-size: 11px; letter-spacing: 0.5px;">Studio</th>
+              <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center" style="font-size: 11px; letter-spacing: 0.5px;">Tanggal</th>
+              <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center" style="font-size: 11px; letter-spacing: 0.5px;">Jam Main</th>
+              <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center" style="font-size: 11px; letter-spacing: 0.5px;">Total Biaya</th>
+              <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center" style="font-size: 11px; letter-spacing: 0.5px;">Status Booking</th>
+              <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center" style="font-size: 11px; letter-spacing: 0.5px;">Status Payment</th>
+              <th width="8%" class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center" style="font-size: 11px; letter-spacing: 0.5px;">Aksi</th>
             </tr>
           </thead>
           <tbody class="border-top-0">

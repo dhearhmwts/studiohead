@@ -3,7 +3,7 @@
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div class="flex-grow-1" style="min-width: 250px;">
                 <span class="text-secondary fw-bold text-uppercase tracking-wider d-block mb-1" style="font-size: 11px; letter-spacing: 1px; color: #6c757d !important;">Ruang Kendali Pelanggan</span>
-                <h3 class="fw-bold text-dark mb-1" style="letter-spacing: -0.5px; margin: 0; color: #212529 !important;">Selamat Datang Kembali, <?= $membership->full_name ?>! 👋</h3>
+                <h3 class="fw-bold text-dark mb-1" style="letter-spacing: -0.5px; margin: 0; color: #212529 !important;">Selamat Datang Kembali, <?= $membership->full_name ?>!</h3>
                 <p class="text-secondary small mb-0" style="color: #6c757d !important;">Pantau jadwal aktif, kupon keanggotaan, dan kelola aktivitas transaksi Anda di sini.</p>
             </div>
             <div class="flex-shrink-0">
@@ -264,7 +264,7 @@
                                                     $pBadge = 'bg-secondary text-white';
                                                     $status_lower = strtolower($row->payment_status);
                                                     if ($status_lower === 'unpaid') $pBadge = 'bg-warning text-dark';
-                                                    elseif ($status_lower === 'waiting' || $status_lower === 'waiting_verification') $pBadge = 'bg-info text-dark';
+                                                    elseif ($status_lower === 'waiting' || $status_lower === 'waiting_verification') $pBadge = 'bg-info text-white';
                                                     elseif ($status_lower === 'paid') $pBadge = 'bg-success text-white';
                                                     elseif ($status_lower === 'rejected') $pBadge = 'bg-danger text-white';
                                                     ?>

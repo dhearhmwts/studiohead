@@ -69,15 +69,15 @@
         <table id="table" class="table table-sm table-hover align-middle mb-0 text-sm">
           <thead class="table-light text-secondary text-uppercase text-xs">
             <tr>
-              <th width="4%" class="ps-2">#</th>
-              <th>Booking Code</th>
-              <th>Customer</th>
-              <th>Studio</th>
-              <th>Tanggal Booking</th>
-              <th>Total</th>
-              <th>Upload</th>
-              <th>Status</th>
-              <th width="8%" class="text-end pe-2">Action</th>
+              <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center" width="4%" class="ps-2">#</th>
+              <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center">Booking Code</th>
+              <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center">Customer</th>
+              <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center">Studio</th>
+              <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center">Tanggal Booking</th>
+              <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center">Total</th>
+              <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center">Upload</th>
+              <th class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center">Status</th>
+              <th width="8%" class="text-uppercase text-secondary text-sm font-weight-bolder opacity-7 text-center">Action</th>
             </tr>
           </thead>
           <tbody>
