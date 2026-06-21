@@ -66,85 +66,88 @@
     <section class="content-header py-4 px-4">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div class="flex-grow-1" style="min-width: 250px;">
-                <span class="text-uppercase tracking-wider d-block mb-1" style="font-size: 10px; letter-spacing: 1.5px; color: #adb5bd; font-weight: 700;">RUANG KENDALI ADMIN</span>
+                <span class="text-uppercase tracking-wider d-block mb-1" style="font-size: 10px; letter-spacing: 1.5px; color: #adb5bd; font-weight: 700;">RUANG KENDALI STAFF & MANAGEMENT</span>
                 <h3 class="fw-bold text-dark mb-1" style="letter-spacing: -0.5px; font-size: 1.6rem; color: #212529 !important;">Selamat Datang Kembali, <?= $user->full_name ?>!</h3>
-                <p class="text-secondary small mb-0" style="font-size: 13px; color: #6c757d !important;">Monitor aktivitas studio dan kelola manajemen dan operasional harian Anda di sini.</p>
+                <p class="text-secondary small mb-0" style="font-size: 13px; color: #6c757d !important;">Monitor aktivitas studio dan kelola operasional harian Anda di sini.</p>
             </div>
             <div class="d-flex align-items-center gap-3 flex-shrink-0">
                 <div class="shadow-sm d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; border-radius: 50%; background-color: #ffffff; padding: 2px; border: 1px solid #dee2e6;">
-                    <img src="<?= base_url('uploads/profile/' . ($user->profile_picture ? $user->profile_picture : 'default.jpg')) ?>"
-                        alt="<?= $user->full_name ?>"
-                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;">
+                    <a href="<?= site_url('profile') ?>">
+                        <img src="<?= base_url('uploads/profile/' . ($user->profile_picture ? $user->profile_picture : 'default.jpg')) ?>"
+                            alt="<?= $user->full_name ?>"
+                            style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;">
+                    </a>
                 </div>
             </div>
         </div>
     </section>
+
     <section class="content px-4 pb-5">
         <!-- summary -->
         <div class="row g-3 mb-4">
-            <div class="col-6 col-xl-3">
-                <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="col-xl-3 col-md-6 col-6">
+                <div class="card border-0 shadow-sm rounded-4 h-100 btn-hover-effect">
                     <div class="card-body p-3 d-flex flex-column justify-content-between">
                         <div>
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <span class="text-uppercase fw-semibold text-secondary small" style="letter-spacing:.5px;">Total Booking</span>
-                                <i class="material-symbols-rounded text-secondary fs-5">receipt_long</i>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-uppercase fw-bold text-secondary" style="font-size:10px;letter-spacing:.5px;">Payment Approval</span>
+                                <i class="material-symbols-rounded text-secondary" style="font-size:20px;">payments</i>
                             </div>
-                            <h3 class="fw-bold mb-1"><?= number_format($summary['total_booking']) ?></h3>
-                            <small class="text-muted d-block" style="font-size:11px;">Overall booking history</small>
+                            <h2 class="fw-bold text-dark mb-1" style="font-size:2rem;"><?= number_format($summary['waiting_verification']) ?></h2>
+                            <small class="text-muted" style="font-size:11px;">Waiting for verification</small>
                         </div>
-                        <a href="<?= site_url('booking/list') ?>" class="btn btn-sm btn-outline-dark w-100 rounded-3 fw-semibold style-btn-action mt-3">View Booking</a>
+                        <a href="<?= site_url('booking/paymentApproval') ?>" class="btn btn-sm btn-outline-dark rounded-3 fw-semibold mt-3" style="font-size:11px;">Review Now</a>
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-xl-3">
-                <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="col-xl-3 col-md-6 col-6">
+                <div class="card border-0 shadow-sm rounded-4 h-100 btn-hover-effect">
                     <div class="card-body p-3 d-flex flex-column justify-content-between">
                         <div>
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <span class="text-uppercase fw-semibold text-secondary small" style="letter-spacing:.5px;">Today Booking</span>
-                                <i class="material-symbols-rounded text-secondary fs-5">event_note</i>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-uppercase fw-bold text-secondary" style="font-size:10px;letter-spacing:.5px;">Today's Booking</span>
+                                <i class="material-symbols-rounded text-secondary" style="font-size:20px;">event_note</i>
                             </div>
-                            <h3 class="fw-bold mb-1"><?= number_format($summary['today_booking']) ?></h3>
-                            <small class="text-muted d-block" style="font-size:11px;">Scheduled for today</small>
+                            <h2 class="fw-bold text-dark mb-1" style="font-size:2rem;"><?= number_format($summary['today_booking']) ?></h2>
+                            <small class="text-muted" style="font-size:11px;">Scheduled for today</small>
                         </div>
-                        <a href="<?= site_url('booking/calendar') ?>" class="btn btn-sm btn-outline-dark w-100 rounded-3 fw-semibold style-btn-action mt-3">Open Calendar</a>
+                        <a href="<?= site_url('booking/calendar') ?>" class="btn btn-sm btn-outline-dark rounded-3 fw-semibold mt-3" style="font-size:11px;">Open Calendar</a>
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-xl-3">
-                <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="col-xl-3 col-md-6 col-6">
+                <div class="card border-0 shadow-sm rounded-4 h-100 btn-hover-effect">
                     <div class="card-body p-3 d-flex flex-column justify-content-between">
                         <div>
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <span class="text-uppercase fw-semibold text-secondary small" style="letter-spacing:.5px;">Active Studio</span>
-                                <i class="material-symbols-rounded text-secondary fs-5">podcasts</i>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-uppercase fw-bold text-secondary" style="font-size:10px;letter-spacing:.5px;">Ongoing Session</span>
+                                <i class="material-symbols-rounded text-secondary" style="font-size:20px;">play_circle</i>
                             </div>
-                            <h3 class="fw-bold mb-1"><?= number_format($summary['active_studio']) ?></h3>
-                            <small class="text-muted d-block" style="font-size:11px;">Currently active rooms</small>
+                            <h2 class="fw-bold text-dark mb-1" style="font-size:2rem;"><?= number_format($summary['ongoing_session']) ?></h2>
+                            <small class="text-muted" style="font-size:11px;">Currently in progress</small>
                         </div>
-                        <a href="<?= site_url('studio') ?>" class="btn btn-sm btn-outline-dark w-100 rounded-3 fw-semibold style-btn-action mt-3">Manage Studio</a>
+                        <a href="<?= site_url('booking/calendar?filter=ongoing') ?>" class="btn btn-sm btn-outline-dark rounded-3 fw-semibold mt-3" style="font-size:11px;">Monitor</a>
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-xl-3">
-                <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="col-xl-3 col-md-6 col-6">
+                <div class="card border-0 shadow-sm rounded-4 h-100 btn-hover-effect">
                     <div class="card-body p-3 d-flex flex-column justify-content-between">
                         <div>
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <span class="text-uppercase fw-semibold text-secondary small" style="letter-spacing:.5px;">Monthly Revenue</span>
-                                <i class="material-symbols-rounded text-secondary fs-5">payments</i>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-uppercase fw-bold text-secondary" style="font-size:10px;letter-spacing:.5px;">Booking List</span>
+                                <i class="material-symbols-rounded text-secondary" style="font-size:20px;">assignment</i>
                             </div>
-                            <h3 class="fw-bold mb-1">Rp <?= number_format($summary['monthly_revenue'], 0, ',', '.') ?></h3>
-                            <small class="text-muted d-block" style="font-size:11px;">Earnings this month</small>
+                            <h2 class="fw-bold text-dark mb-1" style="font-size:2rem;"><?= number_format($summary['active_booking']) ?></h2>
+                            <small class="text-muted" style="font-size:11px;">Active booking records</small>
                         </div>
-                        <a href="<?= site_url('booking/paymentList') ?>" class="btn btn-sm btn-outline-dark w-100 rounded-3 fw-semibold style-btn-action mt-3">View Payments</a>
+                        <a href="<?= site_url('booking/list') ?>" class="btn btn-sm btn-dark rounded-3 fw-semibold mt-3" style="font-size:11px;">Open</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row g-3 mb-4 align-items-stretch">
+        <div class="row g-4 mb-4">
             <!-- need attention -->
             <div class="col-lg-5">
                 <div class="card border-0 shadow-sm rounded-4 h-100">
@@ -224,8 +227,8 @@
                     </div>
                 </div>
             </div>
-            <!-- todays schedulle -->
-            <div class="col-lg-5">
+            <!-- today's schedulle -->
+            <div class="col-lg-7">
                 <div class="card border-0 shadow-sm rounded-4 h-100">
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -280,116 +283,10 @@
                     </div>
                 </div>
             </div>
-            <!-- membership summary -->
-            <div class="col-lg-2">
-                <div class="card border-0 shadow-sm rounded-4 h-100">
-                    <div class="card-body p-3">
-                        <div class="mb-3">
-                            <h6 class="fw-semibold mb-1">Membership Statistics</h6>
-                        </div>
-                        <?php
-                        $total_all_members = array_sum(array_column($membership, 'total'));
-                        foreach ($membership as $row):
-                            $tier = strtolower(trim($row->tier_name ?? 'regular'));
-                            $bg_color = 'linear-gradient(135deg,#2c3e50,#000000)';
-                            $accent_color = '#ffffff';
-                            $tier_icon = 'workspace_premium';
-                            if ($tier == 'bronze') {
-                                $bg_color = 'linear-gradient(135deg,#8C6239,#5D4037)';
-                                $accent_color = '#D7A86E';
-                                $tier_icon = 'military_tech';
-                            } else if ($tier == 'silver') {
-                                $bg_color = 'linear-gradient(135deg,#6D6D6D,#2F2F2F)';
-                                $accent_color = '#E5E5E5';
-                                $tier_icon = 'workspace_premium';
-                            } else if ($tier == 'gold') {
-                                $bg_color = 'linear-gradient(135deg,#D4A017,#7A5600)';
-                                $accent_color = '#FFD54F';
-                                $tier_icon = 'emoji_events';
-                            } else if ($tier == 'platinum') {
-                                $bg_color = 'linear-gradient(135deg,#4A5A6A,#151A20)';
-                                $accent_color = '#B8D4E3';
-                                $tier_icon = 'diamond';
-                            } else if ($tier == 'vip') {
-                                $bg_color = 'linear-gradient(135deg,#4a148c,#0d001f)';
-                                $accent_color = '#ee40fb';
-                                $tier_icon = 'auto_awesome';
-                            }
-
-                            $percentage = $total_all_members > 0 ? ($row->total / $total_all_members) * 100 : 0;
-                        ?>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between align-items-center small mb-1">
-                                    <span class="fw-medium d-flex align-items-center gap-1">
-                                        <i class="material-symbols-rounded" style="font-size:16px; color: <?= $accent_color ?>; background: <?= $bg_color ?>; -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><?= $tier_icon ?></i>
-                                        <?= htmlspecialchars($row->tier_name) ?>
-                                    </span>
-                                    <span class="text-muted fw-bold"><?= number_format($row->total) ?></span>
-                                </div>
-                                <div class="progress" style="height:6px; background-color: #e9ecef;">
-                                    <div class="progress-bar rounded-3" style="width: <?= $percentage ?>%; background: <?= $bg_color ?>;"></div>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </div>
         </div>
-
-        <div class="row g-3 mb-4 align-items-stretch">
-            <!-- revenue trends -->
-            <div class="col-lg-4">
-                <div class="card border-0 shadow-sm rounded-4 h-100">
-                    <div class="card-body p-3">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div>
-                                <h6 class="fw-semibold mb-1">Revenue Trend</h6>
-                                <small class="text-muted">Last 7 days</small>
-                            </div>
-                        </div>
-                        <div style="height:300px;">
-                            <canvas id="revenueDailyChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- booking trends -->
-            <div class="col-lg-4">
-                <div class="card border-0 shadow-sm rounded-4 h-100">
-                    <div class="card-body p-3">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div>
-                                <h6 class="fw-semibold mb-1">Booking Trend</h6>
-                                <small class="text-muted">Last 30 days</small>
-                            </div>
-                        </div>
-                        <div style="height:300px;">
-                            <canvas id="bookingChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- revenue trends -->
-            <div class="col-lg-4">
-                <div class="card border-0 shadow-sm rounded-4 h-100">
-                    <div class="card-body p-3">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div>
-                                <h6 class="fw-semibold mb-1">Revenue Trend</h6>
-                                <small class="text-muted">Last 12 months</small>
-                            </div>
-                        </div>
-                        <div style="height:300px;">
-                            <canvas id="revenueChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row g-3 mb-4 align-items-stretch">
+        <div class="row g-4">
             <!-- status studio -->
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="card border-0 shadow-sm rounded-4 h-100">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center gap-2 mb-3">
@@ -398,7 +295,7 @@
                         </div>
                         <div class="row g-2">
                             <?php foreach ($studio_status as $studio): ?>
-                                <div class="col-4">
+                                <div class="col-6">
                                     <div class="p-2 rounded-3 h-100 border d-flex justify-content-between align-items-center" style="background-color: #fafafa; min-height: 50px;">
                                         <div class="fw-semibold text-dark" style="font-size: 12px;"><?= $studio['studio_name'] ?></div>
 
@@ -424,8 +321,8 @@
                     </div>
                 </div>
             </div>
-            <!-- recent activities -->
-            <div class="col-lg-4">
+            <!-- recent activity -->
+            <div class="col-md-6">
                 <div class="card border-0 shadow-sm rounded-4 h-100">
                     <div class="card-body p-4">
                         <h5 class="fw-bold mb-4 text-dark">Recent Activities</h5>
@@ -448,158 +345,89 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 </div>
 
 <script>
-    // --- booking ---
-    const bookingLabels = [<?php foreach ($booking_chart as $row): ?> '<?= date('d M', strtotime($row->booking_date)) ?>', <?php endforeach; ?>];
-    const bookingData = [<?php foreach ($booking_chart as $row): ?><?= $row->total_booking ?>, <?php endforeach; ?>];
-
-    new Chart(document.getElementById('bookingChart'), {
-        type: 'line',
-        data: {
-            labels: bookingLabels,
-            datasets: [{
-                data: bookingData,
-                borderColor: '#171717',
-                backgroundColor: 'rgba(23,23,23,.05)',
-                borderWidth: 2,
-                tension: .4,
-                fill: true,
-                pointRadius: 3,
-                pointHoverRadius: 5
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                x: {
-                    grid: {
-                        display: false
-                    }
+    $(document).on('click', '.btn-start, #btn-start-session', function() {
+        let id = $(this).data('id') || $('#hidden_id_booking').val();
+        Swal.fire({
+            title: 'Mulai Sesi Studio?',
+            text: 'Pastikan customer telah hadir dan ruangan siap digunakan untuk memulai sesi.',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Mulai',
+            cancelButtonText: 'Batal',
+            confirmButtonColor: '#212529'
+        }).then((result) => {
+            if (!result.isConfirmed) return;
+            $.ajax({
+                url: "<?= site_url('booking/startSession') ?>",
+                type: "POST",
+                data: {
+                    id_booking: id
                 },
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        precision: 0
+                dataType: "json",
+                success: function(res) {
+                    if (res.status) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: res.message
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: res.message
+                        });
                     }
                 }
-            }
-        }
+            });
+        });
     });
 
-    // --- revenue ---
-    const revenueLabels = [<?php foreach ($revenue_chart as $row): ?> '<?= date('M Y', strtotime($row->month . '-01')) ?>', <?php endforeach; ?>];
-    const revenueData = [<?php foreach ($revenue_chart as $row): ?><?= $row->total ?>, <?php endforeach; ?>];
-
-    new Chart(document.getElementById('revenueChart'), {
-        type: 'bar',
-        data: {
-            labels: revenueLabels,
-            datasets: [{
-                data: revenueData,
-                backgroundColor: '#171717',
-                borderRadius: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
+    $(document).on('click', '.btn-complete, #btn-complete-session', function() {
+        let id = $(this).data('id') || $('#hidden_id_booking').val();
+        Swal.fire({
+            title: 'Selesaikan Sesi?',
+            text: 'Konfirmasi jika penggunaan ruangan telah berakhir. Harap periksa dan pastikan kembali kelengkapan inventaris studio sebelum menyelesaikan sesi ini.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Selesaikan',
+            cancelButtonText: 'Batal',
+            confirmButtonColor: '#212529'
+        }).then((result) => {
+            if (!result.isConfirmed) return;
+            $.ajax({
+                url: "<?= site_url('booking/completeSession') ?>",
+                type: "POST",
+                data: {
+                    id_booking: id
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return 'Rp ' + new Intl.NumberFormat('id-ID').format(context.raw);
-                        }
+                dataType: "json",
+                success: function(res) {
+                    if (res.status) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: res.message
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: res.message
+                        });
                     }
                 }
-            },
-            scales: {
-                x: {
-                    grid: {
-                        display: false
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            if (value >= 1000000) {
-                                return 'Rp ' + (value / 1000000).toFixed(value % 1000000 !== 0 ? 1 : 0) + ' Jt';
-                            }
-                            return 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-    // --- revenue per day ---
-    const revenueDailyLabels = <?= json_encode(
-                                    array_map(function ($row) {
-                                        return date('d M', strtotime($row['date']));
-                                    }, $revenueDaily_chart)
-                                ); ?>;
-
-    const revenueDailyData = <?= json_encode(
-                                    array_column($revenueDaily_chart, 'total_revenue')
-                                ); ?>;
-
-    new Chart(document.getElementById('revenueDailyChart'), {
-        type: 'bar',
-        data: {
-            labels: revenueDailyLabels,
-            datasets: [{
-                data: revenueDailyData,
-                backgroundColor: '#171717',
-                borderRadius: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return 'Rp ' + new Intl.NumberFormat('id-ID').format(context.raw);
-                        }
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    grid: {
-                        display: false
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            if (value >= 1000000) {
-                                return 'Rp ' + (value / 1000000).toFixed(value % 1000000 !== 0 ? 1 : 0) + ' Jt';
-                            }
-                            return 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
-                        }
-                    }
-                }
-            }
-        }
+            });
+        });
     });
 </script>

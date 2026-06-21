@@ -19,7 +19,6 @@
         </div>
       </div>
     </div>
-
     <div class="col-md-3">
       <div class="card border-0 rounded-3 shadow-sm bg-light">
         <div class="card-body p-3 d-flex align-items-center justify-content-between">
@@ -33,7 +32,6 @@
         </div>
       </div>
     </div>
-
     <div class="col-md-3">
       <div class="card border-0 rounded-3 shadow-sm bg-light">
         <div class="card-body p-3 d-flex align-items-center justify-content-between">
@@ -47,7 +45,6 @@
         </div>
       </div>
     </div>
-
     <div class="col-md-3">
       <div class="card border-0 rounded-3 shadow-sm bg-light">
         <div class="card-body p-3 d-flex align-items-center justify-content-between">

@@ -8,12 +8,13 @@
             </div>
             <div class="flex-shrink-0">
                 <div class="shadow-sm d-flex align-items-center justify-content-center" style="width: 84px; height: 84px; border-radius: 50%; background-color: #ffffff; padding: 3px;">
-                    <img src="<?= base_url('uploads/profile/' . ($membership->profile_picture ? $membership->profile_picture : 'default.jpg')) ?>"
-                        alt="<?= $membership->full_name ?>"
-                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;">
+                    <a href="<?= site_url('profile') ?>">
+                        <img src="<?= base_url('uploads/profile/' . ($membership->profile_picture ? $membership->profile_picture : 'default.jpg')) ?>"
+                            alt="<?= $membership->full_name ?>"
+                            style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;">
+                    </a>
                 </div>
             </div>
-
         </div>
     </section>
     <section class="content px-3">
@@ -164,7 +165,7 @@
                 $tier_icon = 'diamond';
             } else if ($tier == 'vip') {
                 $bg_color = 'linear-gradient(135deg,#4a148c,#0d001f)';
-                $accent_color = '#ff7cf5';
+                $accent_color = '#ee40fb';
                 $tier_icon = 'auto_awesome';
             }
             ?>

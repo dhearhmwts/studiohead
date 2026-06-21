@@ -87,11 +87,11 @@
         <div class="card-body p-3 shadow-sm rounded-4">
           <div class="d-flex align-items-center justify-content-between">
             <div>
-              <span class="text-xs text-uppercase text-primary fw-bold d-block mb-1">Approved</span>
-              <h2 class="fw-bolder text-primary mb-0"><?= $summary['approved'] ?? 0 ?></h2>
+              <span class="text-xs text-uppercase fw-bold d-block mb-1" style="color:#083b5c;">Approved</span>
+              <h2 class="fw-bolder mb-0" style="color:#083b5c;"><?= $summary['approved'] ?? 0 ?></h2>
             </div>
-            <div class="icon-shape shadow-sm text-primary" style="background-color: rgba(13, 110, 253, 0.1);">
-              <span class="material-symbols-outlined fs-2">event_available</span>
+            <div class="icon-shape shadow-sm text-success" style="background-color:#cee7f7;">
+              <span class="material-symbols-outlined fs-2" style="color: #0b5e92;">event_available</span>
             </div>
           </div>
           <div class="mt-2">
@@ -105,11 +105,11 @@
         <div class="card-body p-3 shadow-sm rounded-4">
           <div class="d-flex align-items-center justify-content-between">
             <div>
-              <span class="text-xs text-uppercase text-success fw-bold d-block mb-1">Ongoing</span>
-              <h2 class="fw-bolder text-success mb-0"><?= $summary['ongoing'] ?? 0 ?></h2>
+              <span class="text-xs text-uppercase fw-bold d-block mb-1" style="font-weight: 800; color: #2b4c3f !important;">Ongoing</span>
+              <h2 class="fw-bolder text-success mb-0" style="font-weight: 800; color: #2b4c3f !important;"><?= $summary['ongoing'] ?? 0 ?></h2>
             </div>
-            <div class="icon-shape shadow-sm text-success" style="background-color: rgba(25, 135, 84, 0.1);">
-              <span class="material-symbols-outlined fs-2">play_circle</span>
+            <div class="icon-shape shadow-sm text-success" style="background-color:#eef5f2;">
+              <span class="material-symbols-outlined fs-2" style="color: #2b4c3f;">play_circle</span>
             </div>
           </div>
           <div class="mt-2">
@@ -138,7 +138,7 @@
     </div>
   </div>
   <div class="card calendar-wrapper border-0 shadow-sm position-relative">
-    <div class="calendar-loading spinner-border text-primary spinner-border-sm" role="status">
+    <div class="calendar-loading spinner-border text-info spinner-border-sm" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
     <div class="card-header bg-white border-0 pb-0 pt-4 px-4">
@@ -350,26 +350,41 @@
             $('#modalDetail').modal('show');
           });
         },
-
         eventDidMount: function(info) {
-          let status = info.event.extendedProps.status;
+          let status = info.event.extendedProps.color_status;
           let $eventEl = $(info.el);
-          if (status === 'approved') {
-            $eventEl.css({
-              'background-color': '#0d6efd',
-              'border-left': '5px solid #0a58ca'
-            });
-          } else if (status === 'ongoing') {
-            $eventEl.css({
-              'background-color': '#198754',
-              'border-left': '5px solid #146c43'
-            });
-          } else if (status === 'completed') {
-            $eventEl.css({
-              'background-color': '#6c757d',
-              'border-left': '5px solid #495057'
-            });
-          }
+          let styles = {
+            approved: {
+              bg: '#0b5e92',
+              border: '#084d77'
+            },
+            overdue_end: {
+              bg: '#dc3545',
+              border: '#b02a37'
+            },
+            overdue_start: {
+              bg: '#dc9135',
+              border: '#b0692a'
+            },
+            completed: {
+              bg: '#212529',
+              border: '#000000'
+            },
+            ongoing: {
+              bg: '#2b4c3f',
+              border: '#1f372d'
+            }
+          };
+
+          let color = styles[status] || styles.approved;
+          $eventEl.css({
+            'background-color': color.bg,
+            'border': 'none',
+            'border-left': '5px solid ' + color.border,
+            'border-radius': '8px',
+            'color': '#fff',
+            'font-weight': '600'
+          });
         }
       });
 
@@ -415,7 +430,8 @@
     $(document).on('click', '.btn-start, #btn-start-session', function() {
       let id = $(this).is('button') ? $(this).data('id') : $('#hidden_id_booking').val();
       Swal.fire({
-        title: 'Mulai Session?',
+        title: 'Mulai Sesi Studio?',
+        text: 'Pastikan customer telah hadir dan ruangan siap digunakan untuk memulai sesi.',
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#0d6efd'
@@ -440,7 +456,8 @@
     $(document).on('click', '.btn-complete, #btn-complete-session', function() {
       let id = $(this).is('button') ? $(this).data('id') : $('#hidden_id_booking').val();
       Swal.fire({
-        title: 'Selesaikan Session?',
+        title: 'Selesaikan Sesi?',
+        text: 'Konfirmasi jika penggunaan ruangan telah berakhir. Harap periksa dan pastikan kembali kelengkapan inventaris studio sebelum menyelesaikan sesi ini.',
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#198754'

@@ -919,13 +919,28 @@ class Booking extends CI_Controller
         $events = [];
         $bookings = $this->Booking_model->get_today_schedule();
         foreach ($bookings as $booking) {
+            $now = time();
+            $status_color = $booking['booking_status'];
+
+            $start = strtotime($booking['booking_date'] . ' ' . $booking['start_time']);
+            $end   = strtotime($booking['booking_date'] . ' ' . $booking['end_time']);
+
+            if ($booking['booking_status'] == 'approved' && $start < $now) {
+                $status_color = 'overdue_start';
+            }
+
+            if ($booking['booking_status'] == 'ongoing' && $end < $now) {
+                $status_color = 'overdue_end';
+            }
+
             $events[] = [
-                'id'         => $booking['id_booking'],
+                'id' => $booking['id_booking'],
                 'resourceId' => $booking['id_studio'],
-                'title'      => $booking['booking_code'] . ' - ' . $booking['full_name'],
-                'start'      => $booking['booking_date'] . 'T' . $booking['start_time'],
-                'end'        => $booking['booking_date'] . 'T' . $booking['end_time'],
-                'status'     => $booking['booking_status']
+                'title' => $booking['booking_code'] . ' - ' . $booking['full_name'],
+                'start' => $booking['booking_date'] . 'T' . $booking['start_time'],
+                'end' => $booking['booking_date'] . 'T' . $booking['end_time'],
+                'status' => $booking['booking_status'],
+                'color_status' => $status_color
             ];
         }
 
