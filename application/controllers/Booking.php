@@ -1048,7 +1048,9 @@ class Booking extends CI_Controller
         } elseif ($booking['booking_status'] != 'ongoing') {
             $response['message'] = 'Booking belum berlangsung';
         } else {
+
             $this->db->trans_begin();
+
             $this->db
                 ->where('id_booking', $id_booking)
                 ->update('bookings', [
@@ -1058,6 +1060,9 @@ class Booking extends CI_Controller
                 ]);
 
             $this->Booking_model->insertLog($id_booking, 'ongoing', 'completed', $staff_id);
+
+            $this->recalculateMembership($booking['id_user']);
+
             if ($this->db->trans_status() === false) {
                 $this->db->trans_rollback();
                 $response['message'] = 'Gagal menyelesaikan sesi';
@@ -1074,6 +1079,39 @@ class Booking extends CI_Controller
             ->set_content_type('application/json')
             ->set_status_header(200)
             ->set_output(json_encode($response));
+    }
+
+    public function recalculateMembership($id_user)
+    {
+        $summary = $this->db
+            ->select("COALESCE(SUM(total_price),0) AS total_transaction, COALESCE(SUM(duration_hour),0) AS total_booking_hours", false)
+            ->from('bookings')
+            ->where('id_user', $id_user)
+            ->where('booking_status', 'completed')
+            ->get()
+            ->row_array();
+
+        $tier = $this->db
+            ->select('id_tier')
+            ->from('membership_tiers')
+            ->where('status', 'active')
+            ->where('min_transaction <=', $summary['total_transaction'])
+            ->order_by('min_transaction', 'DESC')
+            ->limit(1)
+            ->get()
+            ->row_array();
+
+        $id_tier = !empty($tier) ? $tier['id_tier'] : 1;
+
+        $this->db
+            ->where('id_user', $id_user)
+            ->update('user_memberships', [
+                'id_tier' => $id_tier,
+                'total_transaction' => $summary['total_transaction'],
+                'total_booking_hours' => $summary['total_booking_hours'],
+                'updated_by' => $this->session->userdata('id_user'),
+                'updated_date' => date('Y-m-d H:i:s')
+            ]);
     }
 
     private function display_page($main_content, $data = null)

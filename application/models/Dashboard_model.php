@@ -150,7 +150,7 @@ class Dashboard_model extends CI_Model
     {
         return [
             'waiting_verification' => $this->db
-                ->where('payment_status', 'waiting_verification')
+                ->where('payment_status', 'waiting')
                 ->count_all_results('payments'),
 
             'today_booking' => $this->db
@@ -182,7 +182,7 @@ class Dashboard_model extends CI_Model
             ->from('payments p')
             ->join('bookings b', 'b.id_booking=p.id_booking')
             ->join('users u', 'u.id_user=b.id_user')
-            ->where('p.payment_status', 'waiting_verification')
+            ->where('p.payment_status', 'waiting')
             ->order_by('p.created_date', 'ASC')
             ->limit($limit)
             ->get()
